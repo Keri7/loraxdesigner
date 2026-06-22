@@ -1,0 +1,3767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Keri Fullwood — Senior Product Designer &amp; Community Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700,201,301,401,501,601,701&display=swap" rel="stylesheet">
+<style>
+  /* ─────────────────────────────────────────────
+     RESET & TOKENS
+  ───────────────────────────────────────────── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #1d1d1f;
+    --near-black: #161618;
+    --ink: #1d1d1f;
+    --dark-2: #2c2c2e;
+    --white: #ffffff;
+    --off-white: #fbfbfd;
+    --cream: #f5f5f7;
+    --cream-deep: #ebebed;
+    --gray-1: #f5f5f7;
+    --gray-2: #d2d2d7;
+    --gray-3: #86868b;
+    --gray-4: #424245;
+
+    /* ELECTRIC BLUE — the single key color */
+    --moss: #0a84ff;
+    --moss-deep: #0066cc;
+    --moss-light: #5eb3ff;
+    --moss-glow: rgba(10, 132, 255, 0.22);
+    --moss-tint: rgba(10, 132, 255, 0.08);
+
+    /* supporting accents — cool greys */
+    --warm: #6e6e73;
+    --rose: #424245;
+
+    --display: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sans: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--off-white);
+  }
+
+  /* Custom text selection — electric blue highlight */
+  ::selection {
+    background: var(--moss);
+    color: var(--off-white);
+    text-shadow: none;
+  }
+  ::-moz-selection {
+    background: var(--moss);
+    color: var(--off-white);
+    text-shadow: none;
+  }
+
+  /* On dark sections, use a translucent glow so it reads softer */
+  .section-dark ::selection,
+  .closing ::selection,
+  .global-section ::selection {
+    background: var(--moss-light);
+    color: var(--near-black);
+  }
+  .section-dark ::-moz-selection,
+  .closing ::-moz-selection,
+  .global-section ::-moz-selection {
+    background: var(--moss-light);
+    color: var(--near-black);
+  }
+
+  body {
+    background: var(--off-white);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.55;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+  }
+
+  /* ─────────────────────────────────────────────
+     CUSTOM CURSOR
+  ───────────────────────────────────────────── */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--moss);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), background 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor.expand {
+    width: 48px;
+    height: 48px;
+    background: var(--moss);
+    opacity: 0.4;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--moss);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.4;
+    transition: transform 0.6s var(--ease-out), opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  @media (max-width: 900px) {
+    .cursor, .cursor-ring { display: none; }
+  }
+
+  /* ─────────────────────────────────────────────
+     PROGRESS BAR
+  ───────────────────────────────────────────── */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--moss), var(--rose));
+    z-index: 200;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ─────────────────────────────────────────────
+     NAV
+  ───────────────────────────────────────────── */
+  nav.topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(245, 243, 238, 0.82);
+    border-bottom: 1px solid rgba(29, 31, 28, 0.08);
+    transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+  }
+
+  nav.topnav.dark {
+    background: rgba(20, 23, 26, 0.78);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: color 0.5s ease;
+  }
+
+  .nav-logo span {
+    font-weight: 600;
+    margin-left: 4px;
+    color: var(--ink);
+    transition: color 0.5s ease;
+  }
+
+  nav.topnav.dark .nav-logo { color: var(--off-white); }
+  nav.topnav.dark .nav-logo span { color: var(--off-white); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray-4);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--moss); }
+
+  nav.topnav.dark .nav-links a { color: rgba(255,255,255,0.8); }
+  nav.topnav.dark .nav-links a:hover { color: var(--white); }
+
+  /* ─────────────────────────────────────────────
+     SECTION BASE
+  ───────────────────────────────────────────── */
+  section { position: relative; }
+
+  .section-light {
+    background: var(--off-white);
+    color: var(--ink);
+  }
+
+  .section-dark {
+    background: var(--near-black);
+    color: var(--off-white);
+  }
+
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ─────────────────────────────────────────────
+     HERO
+  ───────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    padding: 100px 0 60px;
+    background: var(--off-white);
+    color: var(--ink);
+  }
+
+  /* Spotlight gradient */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 30%, var(--moss-glow) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(184, 117, 58, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Subtle grain */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--moss);
+    margin-bottom: 40px;
+    padding: 6px 14px;
+    border: 1px solid var(--moss);
+    border-radius: 100px;
+    background: var(--moss-tint);
+    font-weight: 700;
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(52px, 8.5vw, 128px);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+    margin-bottom: 36px;
+    color: var(--ink);
+  }
+
+  .hero-title .line {
+    display: block;
+    overflow: hidden;
+    padding: 0.06em 0.04em;
+  }
+
+  .hero-title .line span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: lineReveal 1.2s var(--ease-out) forwards;
+  }
+
+  .hero-title .line:nth-child(1) span { animation-delay: 0.2s; }
+  .hero-title .line:nth-child(2) span { animation-delay: 0.35s; }
+  .hero-title .line:nth-child(3) span { animation-delay: 0.5s; }
+
+  @keyframes lineReveal {
+    to { transform: translateY(0); }
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  .hero-sub {
+    font-size: clamp(19px, 1.6vw, 24px);
+    line-height: 1.55;
+    color: var(--gray-4);
+    max-width: 760px;
+    margin: 0 auto 64px;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeUp 1s var(--ease-out) 0.9s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s var(--ease-out) 1.1s forwards;
+  }
+
+  .hero-meta-item {
+    text-align: left;
+  }
+
+  .hero-meta-item .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--gray-3);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .hero-meta-item .val {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--gray-3);
+    z-index: 3;
+    font-weight: 500;
+    opacity: 0;
+    animation: fadeIn 1s var(--ease-out) 1.5s forwards, bob 2.5s ease-in-out 2.5s infinite;
+  }
+
+  .hero-scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--gray-3), transparent);
+    margin: 12px auto 0;
+  }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+  }
+
+  /* ─────────────────────────────────────────────
+     MARQUEE / TICKER
+  ───────────────────────────────────────────── */
+  .marquee {
+    background: var(--cream);
+    padding: 32px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(29, 31, 28, 0.08);
+    border-bottom: 1px solid rgba(29, 31, 28, 0.08);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 80px;
+    animation: marquee 60s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--gray-4);
+    letter-spacing: -0.02em;
+  }
+
+  .marquee-dot {
+    color: var(--moss);
+    font-style: normal;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─────────────────────────────────────────────
+     PHILOSOPHY — STICKY/PINNED
+  ───────────────────────────────────────────── */
+  .philosophy {
+    background: var(--off-white);
+    color: var(--ink);
+    padding: 0;
+    position: relative;
+  }
+
+  .philosophy-hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 32px 60px;
+  }
+
+  .philosophy-hero-content {
+    max-width: 1100px;
+  }
+
+  .philosophy-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss);
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  .philosophy-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(42px, 6.5vw, 92px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+
+  .philosophy-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  .philosophy-grid {
+    position: relative;
+    z-index: 2;
+    padding: 40px 32px 160px;
+    max-width: 1440px;
+    margin: 0 auto;
+    background: var(--off-white);
+  }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    padding: 80px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    align-items: start;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  }
+
+  .principle.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .principle:last-child { border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+
+  .principle-num {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(64px, 8vw, 116px);
+    line-height: 0.9;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+    position: sticky;
+    top: 120px;
+  }
+
+  .principle-num span {
+    color: var(--moss);
+    font-weight: 500;
+  }
+
+  .principle-body h3 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(28px, 3.5vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+
+  .principle-body h3 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  .principle-body p {
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--gray-4);
+    font-weight: 400;
+    max-width: 680px;
+  }
+
+  /* ─────────── PROCESS DIAGRAM ─────────── */
+  .process-section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 32px 160px;
+    text-align: center;
+  }
+
+  .process-header {
+    margin-bottom: 80px;
+  }
+
+  .process-eyebrow {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss);
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+
+  .process-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .process-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  .process-sub {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--gray-4);
+    max-width: 640px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+
+  .process-flow {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .process-step {
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 28px 28px;
+    min-width: 140px;
+    text-align: center;
+    transition: all 0.4s var(--ease-out);
+    position: relative;
+  }
+
+  .process-step:hover {
+    transform: translateY(-6px);
+    border-color: var(--moss);
+    box-shadow: 0 20px 40px -20px rgba(0, 102, 255, 0.25);
+  }
+
+  .process-step-num {
+    font-family: var(--display);
+    font-weight: 200;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--moss);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+  }
+
+  .process-step-label {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  .process-arrow {
+    align-self: center;
+    color: var(--gray-3);
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .process-iterate {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: var(--moss-tint);
+    border: 1px solid var(--moss);
+    border-radius: 100px;
+    color: var(--moss);
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 96px;
+  }
+
+  .iterate-arrow {
+    font-size: 22px;
+    animation: spin-slow 8s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Cross-functional collaboration */
+  .collab-section {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 64px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .collab-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--gray-3);
+    margin-bottom: 40px;
+    font-weight: 600;
+  }
+
+  .collab-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .collab-card {
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: left;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .collab-card:hover {
+    border-color: var(--moss);
+    transform: translateY(-3px);
+  }
+
+  .collab-label {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .collab-actions {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--gray-4);
+    font-weight: 400;
+  }
+
+  /* ─────────────────────────────────────────────
+     COMMUNITY — Dark, immersive
+  ───────────────────────────────────────────── */
+  .community-section {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 0 0 140px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .community-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    width: 1200px;
+    height: 1200px;
+    transform: translate(-50%, -40%);
+    background: radial-gradient(circle, var(--moss-tint) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Speaking-photo hero at the top of the community section */
+  .community-hero-photo {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .community-hero-photo img {
+    display: block;
+    width: 100%;
+    height: 78vh;
+    max-height: 820px;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+
+  .community-hero-photo figcaption {
+    position: relative;
+    background: var(--cream);
+    padding: 28px 40px 0;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .community-hero-photo .meta-line {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .community-hero-photo .meta-sub {
+    display: block;
+    font-size: 15px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .community-hero-photo .meta-sub em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .community-section .section-header {
+    margin-top: 96px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 96px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(44px, 7vw, 100px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  /* Community intro paragraph */
+  .community-intro {
+    max-width: 820px;
+    margin: 0 auto 64px;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .community-intro p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--gray-4);
+    margin-bottom: 20px;
+  }
+
+  .community-intro p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Stats showcase */
+  .community-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(29, 31, 28, 0.1);
+    border: 1px solid rgba(29, 31, 28, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stat-cell {
+    background: var(--off-white);
+    padding: 64px 40px;
+    text-align: center;
+    transition: background 0.4s ease;
+  }
+
+  .stat-cell:hover {
+    background: var(--white);
+  }
+
+  .stat-num {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(60px, 7.5vw, 108px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--moss);
+    margin-bottom: 20px;
+  }
+
+  .stat-num em { font-style: italic; font-weight: 400; }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gray-4);
+    font-weight: 600;
+  }
+
+  .stat-sublabel {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--gray-3);
+    margin-top: 10px;
+  }
+
+  /* Podcast feature card */
+  .podcast-feature {
+    background: var(--moss);
+    border-radius: 28px;
+    padding: 80px 64px;
+    margin-bottom: 80px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+    align-items: center;
+    transition: transform 0.5s var(--ease-out);
+    border: 1px solid var(--moss-deep);
+  }
+
+  .podcast-feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 40px 80px -30px rgba(42, 59, 47, 0.4);
+  }
+
+  .podcast-feature::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(184, 117, 58, 0.18) 0%, transparent 60%);
+    pointer-events: none;
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .podcast-feature:hover::before {
+    transform: scale(1.2);
+  }
+
+  .podcast-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+  }
+
+  .podcast-tag::after {
+    content: '↗';
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .podcast-feature:hover .podcast-tag::after {
+    transform: translate(4px, -4px);
+  }
+
+  .podcast-title-feat {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(30px, 3.5vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    color: var(--off-white);
+  }
+
+  .podcast-title-feat em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--near-black);
+  }
+
+  .podcast-body-feat {
+    font-size: 19px;
+    line-height: 1.6;
+    color: rgba(245, 243, 238, 0.85);
+    margin-bottom: 48px;
+    max-width: 560px;
+    font-weight: 400;
+  }
+
+  .pod-stats-row {
+    display: flex;
+    gap: 56px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(245, 243, 238, 0.18);
+  }
+
+  .pod-stat .pn {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--off-white);
+  }
+
+  .pod-stat .pl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(245, 243, 238, 0.75);
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  /* Animated podcast waveform */
+  .podcast-viz {
+    position: relative;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .wave-bars {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3px;
+    height: 180px;
+  }
+
+  .wave-bars span {
+    display: block;
+    flex: 1;
+    background: linear-gradient(180deg, var(--cream), rgba(245, 243, 238, 0.3));
+    border-radius: 100px;
+    animation: pulse-bar 2s ease-in-out infinite;
+    min-width: 3px;
+  }
+
+  @keyframes pulse-bar {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.35); }
+  }
+
+  .pod-counter {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(245, 243, 238, 0.7);
+    font-weight: 500;
+  }
+
+  /* Episode cards */
+  .episodes-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .ep-card {
+    background: var(--off-white);
+    border: 1px solid rgba(29, 31, 28, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.5s var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 260px;
+  }
+
+  .ep-card:hover {
+    background: var(--white);
+    border-color: var(--moss);
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px -20px rgba(29, 31, 28, 0.15);
+  }
+
+  .ep-num {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--moss);
+    font-weight: 600;
+  }
+
+  .ep-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 23px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .ep-guest {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--gray-4);
+  }
+
+  .ep-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--gray-4);
+    flex: 1;
+  }
+
+  .ep-listen {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--moss);
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(29, 31, 28, 0.12);
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+
+  /* Talks */
+  .talks-block {
+    margin-top: 100px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .talks-subhead {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .talks-subhead h3 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  .talks-list {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .talk-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px;
+    gap: 40px;
+    padding: 32px 0;
+    border-top: 1px solid rgba(29, 31, 28, 0.12);
+    align-items: start;
+  }
+
+  .talk-row:last-child { border-bottom: 1px solid rgba(29, 31, 28, 0.12); }
+
+  .talk-year {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--moss);
+    line-height: 1.2;
+  }
+
+  .talk-name {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .talk-venue {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray-3);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .talk-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray-4);
+    max-width: 600px;
+  }
+
+  .talk-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--moss);
+    background: var(--moss-tint);
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--moss);
+    justify-self: end;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* ─────────────────────────────────────────────
+     CASE STUDIES — cinematic
+  ───────────────────────────────────────────── */
+  .work-section { padding: 160px 0; position: relative; }
+
+  .case {
+    margin-bottom: 200px;
+    position: relative;
+  }
+
+  .case:last-child { margin-bottom: 0; }
+
+  .case-intro {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .case-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--moss);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .case-headline {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(40px, 5.5vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+  }
+
+  .section-light .case-headline { color: var(--ink); }
+  .section-black .case-headline { color: var(--white); }
+
+  .case-headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  .case-summary {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.5;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-light .case-summary { color: var(--gray-4); }
+  .section-black .case-summary { color: rgba(255,255,255,0.7); }
+
+  /* Impact strip — hero metrics promoted to top of each case */
+  .case-impact {
+    max-width: 900px;
+    margin: 36px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .section-black .case-impact {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.12);
+  }
+  .impact-cell {
+    background: var(--off-white);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .section-black .impact-cell { background: var(--ink); }
+  .impact-num {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: -0.02em;
+    color: var(--moss);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .impact-label {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--gray-4);
+  }
+  .section-black .impact-label { color: rgba(255,255,255,0.65); }
+
+  @media (max-width: 720px) {
+    .case-impact { grid-template-columns: 1fr; }
+  }
+
+  /* Cinematic full-bleed visual */
+  .case-stage {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    margin-bottom: 100px;
+  }
+
+  /* Marathon stage — photo-driven */
+  .stage-marathon {
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .stage-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    will-change: transform;
+  }
+
+  /* For screenshot-style photos that need to fit fully */
+  .stage-photo-contained {
+    object-fit: contain;
+    object-position: center center;
+    padding: 40px 48px 80px;
+  }
+
+  .stage-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.05) 0%,
+      rgba(0,0,0,0.15) 50%,
+      rgba(0,0,0,0.65) 100%);
+    pointer-events: none;
+  }
+
+  .stage-caption {
+    position: absolute;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+    padding: 0 40px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .stage-caption-text {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    max-width: 880px;
+    margin: 0 auto;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  }
+
+  .stage-caption-text em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss-light);
+  }
+
+  .stage-caption-meta {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.85);
+    margin-top: 18px;
+    font-weight: 600;
+  }
+
+  /* Variant for screenshot photos on light backgrounds — dark text in a pill */
+  .stage-caption-light .stage-caption-text {
+    color: var(--ink);
+    text-shadow: none;
+    background: rgba(251, 251, 253, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: inline-block;
+    padding: 20px 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 8px 32px -8px rgba(0,0,0,0.12);
+  }
+
+  .stage-caption-light .stage-caption-text em {
+    color: var(--moss);
+  }
+
+  .stage-caption-light .stage-caption-meta {
+    color: var(--gray-3);
+    margin-top: 16px;
+  }
+
+  /* Inline case figure (wheelchair photo) */
+  .case-figure {
+    margin-top: 40px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  .case-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+
+  .case-figure figcaption {
+    padding: 20px 24px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--gray-4);
+    font-style: italic;
+    background: var(--cream);
+  }
+
+  /* legacy fallbacks — keep for any other usage */
+  .stage-marathon::before { display: none; }
+  .stage-marathon .stage-content { display: none; }
+
+  .marathon-display {
+    display: flex;
+    gap: 32px;
+    align-items: flex-end;
+    height: 320px;
+    perspective: 1000px;
+  }
+
+  .runner-track {
+    width: 180px;
+    height: 100%;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      var(--moss-tint) 60%,
+      var(--moss-glow) 100%);
+    border: 1.5px solid var(--moss);
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 24px;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .runner-track.gold {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(184, 117, 58, 0.1) 60%,
+      rgba(184, 117, 58, 0.35) 100%);
+    border-color: var(--warm);
+    height: 110%;
+  }
+
+  .runner-track.rose {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(196, 122, 94, 0.1) 60%,
+      rgba(196, 122, 94, 0.3) 100%);
+    border-color: var(--rose);
+    height: 85%;
+  }
+
+  .runner-track::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: var(--off-white);
+    border: 2px solid var(--moss);
+    border-radius: 50%;
+  }
+
+  .runner-track.gold::before { border-color: var(--warm); }
+  .runner-track.rose::before { border-color: var(--rose); }
+
+  .runner-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 38px;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+  }
+
+  .stage-headline {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(28px, 3.5vw, 46px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-align: center;
+    color: var(--ink);
+    max-width: 800px;
+    padding: 0 32px;
+  }
+
+  .stage-headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss);
+  }
+
+  /* AGL stage */
+  .stage-agl {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .stage-agl .stage-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .number-morph {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    font-family: var(--display);
+  }
+
+  .morph-num {
+    text-align: center;
+  }
+
+  .morph-num .big {
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(100px, 14vw, 220px);
+    line-height: 0.85;
+    letter-spacing: -0.055em;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  .morph-num.after .big {
+    font-weight: 300;
+    color: var(--moss);
+  }
+
+  .morph-num .unit {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gray-3);
+    margin-top: 24px;
+  }
+
+  .morph-arrow {
+    font-size: 48px;
+    font-weight: 200;
+    color: var(--moss);
+    font-family: var(--display);
+  }
+
+  /* Walmart stage — photo of actual button library */
+  .stage-walmart {
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .stage-walmart::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 30%, var(--moss-tint) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .stage-walmart .stage-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .ds-tokens {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 32px;
+  }
+
+  .ds-token {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+    transition: transform 0.4s var(--ease-out);
+    box-shadow: 0 4px 12px -4px rgba(29, 31, 28, 0.1);
+  }
+
+  .ds-token:hover { transform: translateY(-6px); }
+
+  .ds-token-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(245, 243, 238, 0.95);
+    font-weight: 600;
+  }
+
+  .ds-token-hex {
+    font-size: 10px;
+    color: rgba(245, 243, 238, 0.7);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* Portal stage — three big stats */
+  .stage-portal {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .stage-portal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 25% 30%, var(--moss-glow) 0%, transparent 50%),
+      radial-gradient(circle at 75% 70%, rgba(10, 132, 255, 0.08) 0%, transparent 50%);
+  }
+
+  .stage-portal .stage-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .portal-display {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: clamp(40px, 6vw, 96px);
+    flex-wrap: wrap;
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+
+  .portal-stat {
+    text-align: center;
+  }
+
+  .portal-num {
+    font-family: var(--display);
+    font-weight: 200;
+    font-style: italic;
+    font-size: clamp(80px, 11vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--moss);
+  }
+
+  .portal-num .plus,
+  .portal-num .of {
+    font-family: var(--display);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 0.55em;
+    color: var(--gray-3);
+    margin-left: 0.05em;
+  }
+
+  .portal-lbl {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gray-4);
+    margin-top: 16px;
+  }
+
+  /* Pilot stage — reuses number-morph styles */
+  .stage-pilot {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .stage-pilot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(10, 132, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, var(--moss-glow) 0%, transparent 50%);
+  }
+
+  .stage-pilot .stage-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  /* Case details below stage */
+  /* Video embedded inside a case study */
+  .case-video {
+    max-width: 1280px;
+    margin: 100px auto;
+    padding: 0 32px;
+  }
+
+  .case-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    background: var(--ink);
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .case-video figcaption {
+    margin-top: 22px;
+    text-align: center;
+  }
+
+  .case-video-meta {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .case-video-cap {
+    display: block;
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--gray-4);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .case-detail-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .case-detail-grid h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--moss);
+    margin-bottom: 14px;
+    margin-top: 32px;
+    font-weight: 600;
+  }
+
+  .case-detail-grid h4:first-child { margin-top: 0; }
+
+  .case-detail-grid p {
+    font-size: 18px;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  .section-light .case-detail-grid p { color: var(--gray-4); }
+  .section-black .case-detail-grid p { color: rgba(255,255,255,0.8); }
+
+  .case-detail-grid ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .case-detail-grid ul li {
+    font-size: 18px;
+    line-height: 1.65;
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  .section-light .case-detail-grid ul li { color: var(--gray-4); }
+  .section-black .case-detail-grid ul li { color: rgba(255,255,255,0.8); }
+
+  .case-detail-grid ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--moss);
+  }
+
+  .results-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .result-pill {
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    background: var(--moss);
+    color: var(--off-white);
+  }
+
+  .result-pill.warm { background: var(--warm); }
+  .result-pill.rose { background: var(--rose); }
+  .result-pill.dark { background: var(--ink); color: var(--off-white); }
+
+  /* Award block — Red Dot 2019 in the Marathon case */
+  .award-block {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 24px 28px;
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid rgba(29, 31, 28, 0.08);
+  }
+
+  .award-badge {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 96px;
+  }
+
+  .award-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .award-line {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gray-4);
+    font-weight: 600;
+  }
+
+  .award-line-strong {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--ink);
+    margin: 2px 0 6px;
+  }
+
+  .award-line-meta {
+    font-size: 11px;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--gray-4);
+    font-weight: 500;
+    font-family: var(--sans);
+  }
+
+  /* ─────────────────────────────────────────────
+     GLOBAL PERSPECTIVE SECTION (globe)
+  ───────────────────────────────────────────── */
+  .global-section {
+    background: var(--near-black);
+    color: var(--off-white);
+    padding: 160px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .global-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, var(--moss-glow) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(94, 179, 255, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .global-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .global-copy .section-eyebrow {
+    color: var(--moss-light);
+    margin-bottom: 20px;
+  }
+
+  .global-title {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(36px, 4.5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--off-white);
+    margin-bottom: 32px;
+  }
+
+  .global-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--moss-light);
+  }
+
+  .global-copy p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 20px;
+  }
+
+  .global-cities {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 32px;
+  }
+
+  .global-city {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .global-city:hover,
+  .global-city:focus-visible {
+    color: #fff;
+    transform: translateX(3px);
+    outline: none;
+  }
+
+  .global-city::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--moss);
+    box-shadow: 0 0 12px var(--moss-glow);
+    flex-shrink: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .global-city:hover::before,
+  .global-city:focus-visible::before {
+    transform: scale(1.5);
+    box-shadow: 0 0 18px var(--moss);
+  }
+
+  .global-city.active {
+    color: var(--moss-light);
+  }
+
+  .global-city.active::before {
+    transform: scale(1.6);
+    box-shadow: 0 0 20px var(--moss);
+  }
+
+  /* Globe visual */
+  .globe-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .globe-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 40px rgba(10, 132, 255, 0.25));
+  }
+
+  .globe-svg .globe-bg {
+    fill: rgba(10, 132, 255, 0.04);
+    stroke: rgba(94, 179, 255, 0.18);
+    stroke-width: 1;
+  }
+
+  .globe-svg .graticule {
+    fill: none;
+    stroke: rgba(94, 179, 255, 0.22);
+    stroke-width: 0.8;
+  }
+
+  .globe-svg .equator {
+    stroke: rgba(94, 179, 255, 0.4);
+    stroke-width: 1;
+  }
+
+  .globe-svg .city-dot {
+    fill: var(--moss);
+    filter: drop-shadow(0 0 4px var(--moss));
+    transition: opacity 0.3s ease;
+  }
+
+  .globe-svg .continent {
+    fill: none;
+    stroke: rgba(120, 190, 255, 0.5);
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .globe-svg .city-dot.active-dot {
+    fill: var(--moss-light);
+  }
+
+  .globe-svg .city-label {
+    fill: #fff;
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 500;
+    paint-order: stroke;
+    stroke: rgba(8, 12, 20, 0.85);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  .globe-svg .city-label.show {
+    opacity: 1;
+  }
+
+  /* Soft outer glow ring */
+  .globe-glow {
+    position: absolute;
+    inset: -8%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, transparent 58%, rgba(10, 132, 255, 0.12) 70%, transparent 80%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .global-section { padding: 100px 0; }
+    .global-inner {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+    .globe-wrap { max-width: 360px; }
+    .global-cities { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─────────────────────────────────────────────
+     LEADERSHIP TIMELINE
+  ───────────────────────────────────────────── */
+  .leadership-section {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 160px 0;
+  }
+
+  .timeline-list {
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 0 32px;
+  }
+
+  .tl-row {
+    display: grid;
+    grid-template-columns: 200px 1.4fr 1fr;
+    gap: 48px;
+    padding: 40px 0;
+    border-top: 1px solid rgba(29, 31, 28, 0.15);
+    align-items: start;
+  }
+
+  .tl-row:last-child { border-bottom: 1px solid rgba(29, 31, 28, 0.15); }
+
+  .tl-year {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--moss);
+    letter-spacing: -0.02em;
+  }
+
+  .tl-role {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .tl-org {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gray-3);
+    font-weight: 600;
+  }
+
+  .tl-desc {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--gray-4);
+    font-weight: 400;
+  }
+
+  .tl-subroles {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+  }
+  .tl-subroles li {
+    margin-bottom: 10px;
+    line-height: 1.55;
+  }
+  .tl-subroles li:last-child { margin-bottom: 0; }
+  .tl-subroles strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ─────────────────────────────────────────────
+     CONTACT / CLOSING
+  ───────────────────────────────────────────── */
+  .closing {
+    background: var(--near-black);
+    padding: 200px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .closing::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translate(-50%, -30%);
+    width: 1400px;
+    height: 1400px;
+    background: radial-gradient(circle,
+      rgba(10, 132, 255, 0.32) 0%,
+      rgba(10, 132, 255, 0.08) 25%,
+      transparent 55%);
+    pointer-events: none;
+  }
+
+  .closing-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .closing-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--moss-light);
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  .closing-title {
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(48px, 7vw, 112px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    margin-bottom: 48px;
+    color: var(--off-white);
+  }
+
+  .closing-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--moss);
+  }
+
+  .closing-pitch {
+    font-size: 22px;
+    line-height: 1.55;
+    color: rgba(251, 251, 253, 0.78);
+    max-width: 760px;
+    margin: 0 auto 96px;
+    font-weight: 400;
+  }
+
+  .contact-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding: 48px 0;
+    border-top: 1px solid rgba(251, 251, 253, 0.15);
+    border-bottom: 1px solid rgba(251, 251, 253, 0.15);
+    margin-bottom: 56px;
+    text-align: left;
+  }
+
+  .contact-cell .cl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--moss-light);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .contact-cell a, .contact-cell .v {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--off-white);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
+    word-break: break-word;
+  }
+
+  .contact-cell a:hover {
+    color: var(--moss-light);
+  }
+
+  .footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(251, 251, 253, 0.5);
+    font-weight: 500;
+  }
+
+  /* ─────────────────────────────────────────────
+     SCROLL-TRIGGERED ANIMATIONS
+  ───────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out);
+  }
+
+  .reveal.in-view {
+    opacity: 1;
+  }
+
+  .reveal-stagger > * {
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .reveal-stagger.in-view > *:nth-child(1) { transition-delay: 0.04s; opacity: 1; }
+  .reveal-stagger.in-view > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; }
+  .reveal-stagger.in-view > *:nth-child(3) { transition-delay: 0.12s; opacity: 1; }
+  .reveal-stagger.in-view > *:nth-child(4) { transition-delay: 0.16s; opacity: 1; }
+  .reveal-stagger.in-view > *:nth-child(5) { transition-delay: 0.20s; opacity: 1; }
+  .reveal-stagger.in-view > *:nth-child(6) { transition-delay: 0.24s; opacity: 1; }
+
+  /* Stage parallax */
+  .stage-content {
+    will-change: transform;
+  }
+
+  /* ─────────────────────────────────────────────
+     MOBILE
+  ───────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .nav-inner { padding: 12px 20px; }
+    .nav-links { gap: 18px; }
+    .nav-links a { font-size: 11px; }
+
+    .hero { min-height: 100vh; padding: 100px 0 40px; }
+    .hero-meta { gap: 24px; }
+    .hero-scroll-hint { display: none; }
+
+    .marquee-item { font-size: 20px; }
+
+    .philosophy-hero { height: auto; min-height: 60vh; padding: 80px 24px; position: relative; }
+    .philosophy-grid { padding: 60px 24px 100px; }
+
+    .principle {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 56px 0;
+    }
+    .principle-num { position: static; font-size: 80px; }
+
+    .process-section { padding: 40px 24px 80px; }
+    .process-flow { gap: 6px; }
+    .process-step { min-width: 100px; padding: 20px 16px; }
+    .process-step-num { font-size: 24px; }
+    .process-step-label { font-size: 13px; }
+    .process-arrow { display: none; }
+    .collab-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .portal-display { gap: 32px; }
+
+    .community-section { padding: 0 0 80px; }
+    .community-section .section-header { margin-top: 56px; }
+    .community-hero-photo img { height: 50vh; max-height: 480px; }
+    .community-hero-photo figcaption { padding: 20px 24px 0; }
+    .community-stats {
+      grid-template-columns: 1fr;
+      border-radius: 16px;
+    }
+    .stat-cell { padding: 48px 24px; }
+
+    .podcast-feature {
+      grid-template-columns: 1fr;
+      padding: 48px 32px;
+      gap: 40px;
+      border-radius: 20px;
+    }
+    .pod-stats-row { gap: 32px; flex-wrap: wrap; }
+    .podcast-viz { height: 200px; }
+    .wave-bars { height: 120px; }
+
+    .episodes-row { grid-template-columns: 1fr; gap: 16px; }
+    .ep-card { min-height: 0; padding: 28px 24px; }
+
+    .talks-list { padding: 0 4px; }
+    .talk-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 24px 0;
+    }
+    .talk-tag { justify-self: start; }
+
+    .work-section { padding: 80px 0; }
+    .case { margin-bottom: 100px; }
+    .case-intro { margin-bottom: 48px; padding: 0 24px; }
+
+    .case-stage { height: 70vh; }
+
+    .case-video { margin: 60px auto; padding: 0 16px; }
+    .case-video video { border-radius: 10px; }
+    .case-video-cap { font-size: 16px; }
+
+    .marathon-display {
+      height: 220px;
+      gap: 12px;
+    }
+    .runner-track { width: 80px; padding: 12px; border-radius: 12px; }
+    .runner-track::before { width: 32px; height: 32px; top: 12px; border-width: 1.5px; }
+    .runner-num { font-size: 24px; }
+
+    .number-morph { gap: 24px; flex-direction: column; }
+    .morph-arrow { transform: rotate(90deg); font-size: 36px; }
+
+    .ds-tokens { grid-template-columns: repeat(3, 1fr); }
+
+    .case-detail-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 0 24px;
+    }
+
+    .award-block {
+      grid-template-columns: 80px 1fr;
+      gap: 18px;
+      padding: 20px 22px;
+      margin-bottom: 32px;
+    }
+    .award-badge { max-width: 80px; }
+    .award-line-strong { font-size: 20px; }
+
+
+    .leadership-section { padding: 80px 0; }
+    .timeline-list { padding: 0 24px; }
+    .tl-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 28px 0;
+    }
+
+    .closing { padding: 100px 0 48px; }
+    .closing-inner { padding: 0 24px; }
+    .closing-pitch { margin-bottom: 56px; }
+    .contact-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 32px 0;
+    }
+    .contact-cell a, .contact-cell .v { font-size: 17px; }
+    .footer-bar { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  @media (max-width: 600px) {
+    .contact-row { grid-template-columns: 1fr; }
+    .ds-tokens { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ─────────────────────────────────────────────
+     CASE STUDY — collapsed card + popup modal
+  ───────────────────────────────────────────── */
+  .case-actions {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .case-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--moss-tint);
+    border: 1px solid var(--moss);
+    border-radius: 100px;
+    color: var(--moss);
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .case-expand-btn:hover {
+    background: var(--moss);
+    color: var(--off-white);
+    transform: translateY(-2px);
+  }
+
+  .case-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 64px 24px;
+    background: rgba(13, 14, 16, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow-y: auto;
+  }
+
+  .case-modal-overlay.open {
+    display: flex;
+  }
+
+  .case-modal-panel {
+    position: relative;
+    width: 100%;
+    max-width: 1180px;
+    background: var(--off-white);
+    border-radius: 28px;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 60px 120px -40px rgba(0, 0, 0, 0.5);
+  }
+
+  .case-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(29, 31, 28, 0.65);
+    color: var(--off-white);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .case-modal-close:hover { background: var(--moss); }
+
+  .case-modal-body { padding-bottom: 80px; }
+
+  body.modal-open { overflow: hidden; }
+
+  @media (max-width: 720px) {
+    .case-modal-panel { border-radius: 18px; }
+    .case-modal-overlay { padding: 24px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- Progress bar -->
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav class="topnav" id="topnav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Keri<span>Fullwood</span></a>
+    <ul class="nav-links">
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#community">Voice</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#leadership">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─────────── HERO ─────────── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Designer · UX Community Builder</div>
+    <h1 class="hero-title">
+      <span class="line"><span>Fifteen years shipping products.</span></span>
+      <span class="line"><span>Eight years <em>gathering</em> the people</span></span>
+      <span class="line"><span>who make them.</span></span>
+    </h1>
+    <p class="hero-sub">
+      I've spent fifteen years as a hands-on product designer at companies like Walmart, Air India, and Tata, shipping design systems, native apps, and award-winning experiences — and I founded UX Wizards, a 7,700-person design community. The part I love most is designers learning from each other.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="label">Currently</div>
+        <div class="val">Designing, Advising &amp; Building with AI</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">Previously</div>
+        <div class="val">Senior Product Designer · UX Lead</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">Speaking</div>
+        <div class="val">Cal Poly · Huddle · UXFest</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─────────── PHILOSOPHY ─────────── -->
+<section class="philosophy section-light" id="philosophy">
+  <div class="philosophy-hero">
+    <div class="philosophy-hero-content">
+      <div class="philosophy-eyebrow">Philosophy</div>
+      <h2 class="philosophy-title">How I think about <em>the work.</em></h2>
+    </div>
+  </div>
+
+  <div class="philosophy-grid">
+    <div class="principle">
+      <div class="principle-num">0<span>1</span></div>
+      <div class="principle-body">
+        <h3>Small details are how teams <em>show they care.</em></h3>
+        <p>A button radius, a tap target, an empty state. These are how you tell a user you see them. Caring about the small stuff is what design culture actually is, and protecting that when there's pressure to ship is where craft actually gets tested.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="principle-num">0<span>2</span></div>
+      <div class="principle-body">
+        <h3>Good work comes from <em>trust, not hierarchy.</em></h3>
+        <p>Process and frameworks matter, but trust matters more. I care about keeping the people I work with curious, supported, and close enough to the craft that the work feels like something. I've never seen beautiful design come out of a depleted team.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="principle-num">0<span>3</span></div>
+      <div class="principle-body">
+        <h3>A practice grows <em>in the open.</em></h3>
+        <p>Designers learn fastest from each other. The community, the podcast, the hackathons, the workshops — these aren't side projects, they're the actual practice. The field gets better when we share work before it's finished and say what we actually think out loud.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process diagram -->
+  <div class="process-section">
+    <div class="process-header">
+      <div class="process-eyebrow">In practice</div>
+      <h3 class="process-title">How I work, <em>in motion.</em></h3>
+      <p class="process-sub">Constant iteration and testing leads to better work. Process is downstream of trust, but it still matters — here's mine.</p>
+    </div>
+
+    <div class="process-flow">
+      <div class="process-step" data-step="01">
+        <div class="process-step-num">01</div>
+        <div class="process-step-label">Research</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step" data-step="02">
+        <div class="process-step-num">02</div>
+        <div class="process-step-label">Sketch</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step" data-step="03">
+        <div class="process-step-num">03</div>
+        <div class="process-step-label">Wireframe</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step" data-step="04">
+        <div class="process-step-num">04</div>
+        <div class="process-step-label">Prototype</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step" data-step="05">
+        <div class="process-step-num">05</div>
+        <div class="process-step-label">Hi-Fi Visuals</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step" data-step="06">
+        <div class="process-step-num">06</div>
+        <div class="process-step-label">User Testing</div>
+      </div>
+    </div>
+
+    <div class="process-iterate">
+      <span class="iterate-arrow">↻</span> <span>Iterate. Always.</span>
+    </div>
+
+    <!-- Cross-functional collaboration -->
+    <div class="collab-section">
+      <div class="collab-header">Cross-functional collaboration</div>
+      <div class="collab-grid">
+        <div class="collab-card">
+          <div class="collab-label">Stakeholders</div>
+          <div class="collab-actions">Understand problems &amp; needs · Present solutions</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-label">Users</div>
+          <div class="collab-actions">Test with users · Let testing inform design changes</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-label">Engineers</div>
+          <div class="collab-actions">Discuss feasibility · Modify design as needed</div>
+        </div>
+        <div class="collab-card">
+          <div class="collab-label">Product Team</div>
+          <div class="collab-actions">Understand requirements · Adjust scope as needed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── COMMUNITY / VOICE ─────────── -->
+<section class="community-section" id="community">
+  <figure class="community-hero-photo">
+    <img src="images/huddle-speaking.jpg" alt="Keri Fullwood presenting SynthVibe — a piano and synthesizer music learning game built with Lovable — at the Huddle Design &amp; AI event she organized and hosted" />
+    <figcaption>
+      <span class="meta-line">Huddle · "Design &amp; AI" · May 2026 · organized &amp; hosted</span>
+      <span class="meta-sub">Demoing SynthVibe, a piano + synthesizer learning game built with AI tool Lovable.</span>
+    </figcaption>
+  </figure>
+
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Community &amp; Voice</div>
+      <h2 class="section-title">Designing <em>for</em> designers.</h2>
+    </div>
+
+    <div class="community-intro reveal">
+      <p>I started UX Wizards eight years ago because the meetups I went to were all in San Francisco, while the designers I kept meeting were in the South Bay. I wanted a room closer to home. It's now 7,700 people worldwide, 54 organizers, and 750+ events in — a lot of it spent teaching: workshops, curriculum, and hands-on sessions that help people actually adopt new tools and standards.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="community-stats reveal-stagger">
+      <div class="stat-cell">
+        <div class="stat-num" data-count="7700">7,700+</div>
+        <div class="stat-label">Members</div>
+        <div class="stat-sublabel">in UX Wizards</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-count="750">750+</div>
+        <div class="stat-label">Events Hosted</div>
+        <div class="stat-sublabel">over eight years</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num" data-count="54">54</div>
+        <div class="stat-label">Volunteer Organizers</div>
+        <div class="stat-sublabel">building it with me</div>
+      </div>
+    </div>
+
+    <!-- Peer Design Project Review event -->
+    <figure class="case-video reveal">
+      <video
+        src="images/peer-review.mp4"
+        poster="images/peer-review-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Designers at a Peer Design Project Review event Keri created — a person sketching on an iPad while a peer leans in to give feedback, with the 'Bring Your Thing' event handout visible on the table"
+      ></video>
+      <figcaption>
+        <span class="case-video-meta">UX Wizards · Peer Design Project Review</span>
+        <span class="case-video-cap">I made this as a place for designers to share their work. Peers give real feedback that moves the work forward.</span>
+      </figcaption>
+    </figure>
+
+    <!-- Podcast feature -->
+    <a href="https://open.spotify.com/show/0yJwRZAotIMBRCpoPoF5U7" target="_blank" rel="noopener" class="podcast-feature reveal">
+      <div>
+        <div class="podcast-tag">UX Wizards Podcast · host &amp; producer</div>
+        <h3 class="podcast-title-feat">The UX Wizards Podcast — <em>four seasons in.</em></h3>
+        <p class="podcast-body-feat">
+          I host and produce the podcast — long-form conversations with designers, researchers, founders, and students about how they ended up in UX. Five producers; four seasons and 24 episodes in.
+        </p>
+        <div class="pod-stats-row">
+          <div class="pod-stat">
+            <div class="pn">24</div>
+            <div class="pl">Episodes</div>
+          </div>
+          <div class="pod-stat">
+            <div class="pn">5★</div>
+            <div class="pl">Spotify rating</div>
+          </div>
+          <div class="pod-stat">
+            <div class="pn">5</div>
+            <div class="pl">Producers I lead</div>
+          </div>
+        </div>
+      </div>
+      <div class="podcast-viz">
+        <div class="wave-bars" id="wave-bars"></div>
+        <div class="pod-counter">EP 01 ——— EP 24 · listen on Spotify</div>
+      </div>
+    </a>
+
+    <!-- Featured episodes -->
+    <div class="episodes-row reveal-stagger">
+      <a href="https://open.spotify.com/episode/1tZdIXE226W9WlvErJ6yvy" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-num">EP · AI in hiring</div>
+        <div class="ep-title">AI in Hiring, Careers, and Training</div>
+        <div class="ep-guest">with Kayvon Touran, CEO of Zal.ai</div>
+        <div class="ep-desc">On EdTech, the founding of Zal.ai, and how palette informs creativity. A conversation about where AI meets the design career.</div>
+        <div class="ep-listen"><span>46 min</span><span>Listen →</span></div>
+      </a>
+
+      <a href="https://open.spotify.com/episode/1HwErrrCDq5SL8qi50Zw0X" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-num">EP · Bookclub</div>
+        <div class="ep-title">"Don't Make Me Think"</div>
+        <div class="ep-guest">with Nolan, James &amp; Keri</div>
+        <div class="ep-desc">The team unpacks one of UX's foundational texts — what holds up, what's aged, and what's still worth fighting for.</div>
+        <div class="ep-listen"><span>29 min</span><span>Listen →</span></div>
+      </a>
+
+      <a href="https://open.spotify.com/episode/2ThLFryAvZWTyAizrFUGMh" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-num">EP · Breaking in</div>
+        <div class="ep-title">Breaking Into UX Design</div>
+        <div class="ep-guest">with Grace Kew &amp; Keri F</div>
+        <div class="ep-desc">How do you land your first UX job when 2,000 others got there first? The conversation that paved the way for my "Getting Job Ready in UX" talk.</div>
+        <div class="ep-listen"><span>46 min</span><span>Listen →</span></div>
+      </a>
+    </div>
+
+    <!-- Talks -->
+    <div class="talks-block">
+      <div class="talks-subhead reveal">
+        <h3>In front of the room.</h3>
+      </div>
+
+      <div class="talks-list">
+        <div class="talk-row reveal">
+          <div class="talk-year">May 2026</div>
+          <div>
+            <div class="talk-name">"Design &amp; AI" at Huddle</div>
+            <div class="talk-venue">Created, invited speakers, hosted &amp; spoke</div>
+            <div class="talk-desc">I created the event, invited the speakers, hosted, and spoke about how I'm using AI for my projects.</div>
+          </div>
+          <div class="talk-tag">Hosted</div>
+        </div>
+
+        <div class="talk-row reveal">
+          <div class="talk-year">May 2026</div>
+          <div>
+            <div class="talk-name">Lovable Hackathon</div>
+            <div class="talk-venue">Organized &amp; hosted</div>
+            <div class="talk-desc">A buildathon where designers shipped real prototypes in a weekend, with peer review and demos.</div>
+          </div>
+          <div class="talk-tag">Hosted</div>
+        </div>
+
+        <div class="talk-row reveal">
+          <div class="talk-year">Recent</div>
+          <div>
+            <div class="talk-name">AI knowledge shares</div>
+            <div class="talk-venue">UX Wizards · ongoing</div>
+            <div class="talk-desc">Weekly share sessions on practical AI tooling for designers — less theory, more "here's what's working in my workflow this week."</div>
+          </div>
+          <div class="talk-tag">Series</div>
+        </div>
+
+        <div class="talk-row reveal">
+          <div class="talk-year">Mar 2026</div>
+          <div>
+            <div class="talk-name">"Getting Job Ready in UX"</div>
+            <div class="talk-desc">A practical talk for early-career designers on building a portfolio, telling your story, and getting hired in a shifting market.</div>
+          </div>
+          <div class="talk-tag">Talk</div>
+        </div>
+
+        <div class="talk-row reveal">
+          <div class="talk-year">2024 — Now</div>
+          <div>
+            <div class="talk-name">Figma workshops</div>
+            <div class="talk-desc">Hands-on Figma workshops for the community — component basics through advanced auto-layout and systems thinking. Sponsored by Adobe and Barracuda Networks.</div>
+          </div>
+          <div class="talk-tag">Workshop</div>
+        </div>
+
+        <div class="talk-row reveal">
+          <div class="talk-year">2020 &amp; 2026</div>
+          <div>
+            <div class="talk-name">Cal Poly SLO UXFest</div>
+            <div class="talk-venue">Speaker · Workshop · Panelist · Judge — twice</div>
+            <div class="talk-desc">Invited back to kick off the annual designathon, six years apart — keynote, workshop, panel, and judging.</div>
+          </div>
+          <div class="talk-tag">Speaker · Judge</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── WORK ─────────── -->
+<section class="work-section section-light" id="work">
+  <div class="section-header">
+    <div class="section-eyebrow">Selected Work</div>
+    <h2 class="section-title">A design system, pilot app <em>&amp; racing game.</em></h2>
+    <p style="margin-top: 24px; font-size: 14px; color: var(--gray-3); letter-spacing: 0.02em;">Click "View full case study" on any project below for the full writeup, visuals &amp; video.</p>
+  </div>
+
+  <!-- CASE 1: Marathon -->
+  <article class="case">
+    <div class="case-intro reveal">
+      <div class="case-tag">Walmart · 2019 — 2021</div>
+      <h3 class="case-headline">A design system, <em>built with</em> the people using it.</h3>
+      <p class="case-summary">
+        Migrating Walmart's Living Design System to Figma — a shared resource library serving both designers and developers, with UI kits, documentation, and components built and maintained alongside the teams shipping on them. The library was the easy part; adoption is where most systems die. The dashboard built on top drove a +$27M GMV uplift in three months.
+      </p>
+      <div class="case-impact reveal">
+        <div class="impact-cell">
+          <div class="impact-num">+$27M</div>
+          <div class="impact-label">GMV uplift (+48%) in 3 months</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">5×</div>
+          <div class="impact-label">Faster turnaround on new feature releases</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">11+</div>
+          <div class="impact-label">Platforms unified, accessibility built in</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-actions reveal">
+      <button type="button" class="case-expand-btn" data-modal="modal-walmart">View full case study →</button>
+    </div>
+
+    <div class="case-modal-overlay" id="modal-walmart">
+      <div class="case-modal-panel">
+        <button type="button" class="case-modal-close" aria-label="Close case study">✕</button>
+        <div class="case-modal-body">
+
+    <div class="case-stage stage-walmart">
+      <img src="images/walmart-buttons.png" alt="Walmart Living Design System button matrix — primary, secondary, and tertiary buttons across iOS and Web, in small, medium, and large sizes, with leading and trailing icon variants and all interaction states" class="stage-photo stage-photo-contained" />
+      <div class="stage-caption stage-caption-light">
+        <div class="stage-caption-text">A shared library for designers <em>and</em> developers.</div>
+        <div class="stage-caption-meta">Walmart Living Design System · Buttons · iOS &amp; Web · all variants &amp; states</div>
+      </div>
+    </div>
+
+    <figure class="case-video reveal">
+      <video
+        src="images/walmart-checkout.mp4"
+        poster="images/walmart-checkout-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="A customer at a Walmart self-checkout kiosk completing a purchase — bagging groceries and using the touchscreen interface built on the Living Design System"
+      ></video>
+      <figcaption>
+        <span class="case-video-meta">Living Design System · in production</span>
+        <span class="case-video-cap">The "Duplo" extra-large button at self-checkout — same component spec'd in Figma, now in real Walmart stores.</span>
+      </figcaption>
+    </figure>
+
+    <div class="case-detail-grid">
+      <div>
+        <h4>What I learned</h4>
+        <p>A design system serves two audiences — designers and the developers who build from it — and it fails when it's handed down to either. The office hours, the docs, the UI kits iterated alongside the teams using them: that's what made adoption stick across both. (Office hours are also a great way to find out what's actually broken.)</p>
+
+        <h4>My role</h4>
+        <p>Senior UX Lead on the design systems team. I owned the Sketch → Figma migration, kept the shared component library accurate and well-organized, designed the "Duplo" extra-large button now across self-checkout kiosks, automotive, and car wash screens, and led tag styling standards on walmart.com — partnering closely with engineering throughout.</p>
+
+        <h4>The dashboard that proved it worked</h4>
+        <p>I built the Offer Listing Quality Dashboard from zero — helping Marketplace sellers find and fix incomplete listings, on the system we'd just shipped. A well-tended system makes the next product faster.</p>
+      </div>
+      <div>
+        <h4>Also shipped</h4>
+        <ul>
+          <li>297.5K SKUs updated through the dashboard</li>
+          <li>+700 BPS Listing Quality Score improvement</li>
+          <li>"Duplo" components live across kiosks, automotive &amp; car wash</li>
+        </ul>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+  </article>
+</section>
+
+<!-- Walmart case -->
+<section class="work-section section-light" style="padding-top: 80px;">
+  <article class="case">
+    <div class="case-intro reveal">
+      <div class="case-tag">Air India · Pilot Sector Report · iOS · iPad · 2023</div>
+      <h3 class="case-headline">From <em>15 minutes</em> on paper to 2:30 on iPad.</h3>
+      <p class="case-summary">
+        A native iPadOS app for Air India pilots to file flight, incident, and sector reports — replacing paper forms that took 10–15 minutes a shift and then sat 3–4 days waiting to be re-keyed by hand.
+      </p>
+      <div class="case-impact reveal">
+        <div class="impact-cell">
+          <div class="impact-num">15 min → 2:30</div>
+          <div class="impact-label">Average time to file a report</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">3–4 days → instant</div>
+          <div class="impact-label">Data lag, eliminated</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">100%</div>
+          <div class="impact-label">Of tested pilots filed unaided</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-actions reveal">
+      <button type="button" class="case-expand-btn" data-modal="modal-airindia">View full case study →</button>
+    </div>
+
+    <div class="case-modal-overlay" id="modal-airindia">
+      <div class="case-modal-panel">
+        <button type="button" class="case-modal-close" aria-label="Close case study">✕</button>
+        <div class="case-modal-body">
+
+    <div class="case-stage stage-pilot">
+      <div class="stage-content">
+        <div class="number-morph">
+          <div class="morph-num">
+            <div class="big">15</div>
+            <div class="unit">Minutes · paper</div>
+          </div>
+          <div class="morph-arrow">→</div>
+          <div class="morph-num after">
+            <div class="big">2:30</div>
+            <div class="unit">Minutes · iPad</div>
+          </div>
+        </div>
+        <div class="stage-headline">
+          Plus a 3–4 day data lag, eliminated. <em>Reports hit the database the moment a pilot taps submit.</em>
+        </div>
+      </div>
+    </div>
+
+    <figure class="case-video reveal">
+      <video
+        src="images/pilot-sector.mp4"
+        poster="images/pilot-sector-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="A pilot in an Airbus cockpit using the Pilot Sector Report iPad app, working through cabin crew and fuel entry screens with paper flight logs visible alongside"
+      ></video>
+      <figcaption>
+        <span class="case-video-meta">In the cockpit · Airbus</span>
+        <span class="case-video-cap">The shipped app in real use — and the paper it replaced, visible in the same frame.</span>
+      </figcaption>
+    </figure>
+
+    <div class="case-detail-grid">
+      <div>
+        <h4>The problem</h4>
+        <p>Pilots wrote reports on paper, then waited days for someone to key the data in. Tedious, error-prone, and a bottleneck on operational data the airline needed.</p>
+
+        <h4>My role</h4>
+        <p>Design lead. I interviewed pilots about the forms and the Airbus/Boeing reporting differences, and mapped the database constraints with stakeholders. The unlock: sector reports didn't have to live inside the larger flight report. Treated as their own object, the whole flow got simpler.</p>
+
+        <h4>Two pilots, two rhythms</h4>
+        <p>Captain Sameer flies Airbus narrowbodies — 3–4 short flights a day, back-to-back reports. Captain Gaurav flies Boeing widebodies — one long-haul with a big crew and scheduled rest. Same app, very different filing patterns.</p>
+      </div>
+      <div>
+        <h4>The approach</h4>
+        <ul>
+          <li>Field research with both Airbus and Boeing pilots</li>
+          <li>Concept sketches reviewed with pilots before pixel design</li>
+          <li>Wireframes iterated through several rejected directions</li>
+        </ul>
+
+        <h4>What happened</h4>
+        <p>Every pilot tested completed a submission on their own, unaided. One thing surfaced: some text-only links were styled like icons, and pilots kept tapping the visuals. Fixed that in the next round.</p>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+  </article>
+</section>
+
+<!-- Pilot Sector Report case -->
+<section class="work-section section-light" style="padding-top: 80px;">
+  <article class="case">
+    <div class="case-intro reveal">
+      <div class="case-tag">NYC Marathon × TCS Interactive · 2019</div>
+      <h3 class="case-headline">Sprint to Win — <em>a racing game</em> anyone could play.</h3>
+      <p class="case-summary">
+        A wheelchair-accessible racing game for the NYC Marathon expo, built with New York Road Runners. Tens of thousands played it — kids, grandparents, athletes, wheelchair users — all on the same starting line. It traveled too: full setups in India, Australia, London, and Scotland.
+      </p>
+      <div class="case-impact reveal">
+        <div class="impact-cell">
+          <div class="impact-num">Red Dot</div>
+          <div class="impact-label">Best of the Best, 2019</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">Tens of thousands</div>
+          <div class="impact-label">Played at the NYC Marathon</div>
+        </div>
+        <div class="impact-cell">
+          <div class="impact-num">4 countries</div>
+          <div class="impact-label">Full setups worldwide</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-actions reveal">
+      <button type="button" class="case-expand-btn" data-modal="modal-marathon">View full case study →</button>
+    </div>
+
+    <div class="case-modal-overlay" id="modal-marathon">
+      <div class="case-modal-panel">
+        <button type="button" class="case-modal-close" aria-label="Close case study">✕</button>
+        <div class="case-modal-body">
+
+    <div class="case-stage stage-marathon">
+      <img src="images/racers.jpg" alt="Two kids racing side-by-side on the Sprint to Win pads at the NYC Marathon expo" class="stage-photo" />
+      <div class="stage-overlay"></div>
+      <div class="stage-caption">
+        <div class="stage-caption-text">Two pressure pads. One finish line. <em>Designed inclusively from the first sketch.</em></div>
+        <div class="stage-caption-meta">NYC Marathon Expo · 2019</div>
+      </div>
+    </div>
+
+    <figure class="case-video reveal">
+      <video
+        src="images/marathon-game.mp4"
+        poster="images/marathon-game-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Players of all ages and abilities playing Sprint to Win at the NYC Marathon expo — kids running on pressure pads, a grandmother celebrating with arms outstretched, a wheelchair user racing alongside a child, and the in-game runner avatar crossing the finish line"
+      ></video>
+      <figcaption>
+        <span class="case-video-meta">Sprint to Win · in play</span>
+        <span class="case-video-cap">Kids, grandparents, wheelchair users — all on the same starting line.</span>
+      </figcaption>
+    </figure>
+
+    <div class="case-detail-grid">
+      <div>
+        <h4>The problem</h4>
+        <p>Marathons are exciting if you're running one — less so from the sidelines. NYRR wanted something for the expo that let spectators participate, and we wanted it to work for everyone, including the wheelchair athletes the marathon is famous for.</p>
+
+        <h4>My role</h4>
+        <p>Concept and game mechanics lead. I shaped the core interaction, ran the team through prototyping and on-floor testing, and owned the visual system so the game read instantly in a noisy room.</p>
+
+        <h4>How we built it</h4>
+        <p>DDR dance mats, a wheelchair treadmill, an iPad for picking your avatar, and a smart TV showing the race — plus a lot of calibration. Pads sensed footsteps, the treadmill sensed pushes, both fed the same race engine — so a kid in sneakers could race a Paralympic athlete and it felt fair. Hacked-together hardware, clean idea: one starting line, two ways to run.</p>
+        <p>Before each race you picked a 3D avatar — by ethnicity, gender, ability, and style. Letting people see someone like themselves in the race mattered as much to us as the mechanics did.</p>
+
+        <figure class="case-figure">
+          <img src="images/wheelchair.jpg" alt="Daniel Romanchuk, American Paralympic athlete, with Sujesh Jastee at the NYC Marathon expo" />
+          <figcaption>American Paralympic athlete <strong>Daniel Romanchuk</strong> with Sujesh Jastee at the NYC Marathon expo. Designing for Daniel — and for a kid in sneakers, on the same starting line — was the constraint that made the game.</figcaption>
+        </figure>
+      </div>
+      <div>
+        <div class="award-block">
+          <img src="images/red-dot-badge.jpg" alt="Red Dot Award 2019 — Best of the Best" class="award-badge" />
+          <div class="award-text">
+            <span class="award-line">Red Dot Award · 2019</span>
+            <span class="award-line award-line-strong">Best of the Best</span>
+            <span class="award-line award-line-meta">Sprint to Win · NYC Marathon × TCS Interactive</span>
+          </div>
+        </div>
+
+        <h4>Outcome</h4>
+        <div class="results-row">
+          <span class="result-pill">Featured in event press &amp; broadcast</span>
+        </div>
+
+        <h4>Why it matters to me</h4>
+        <p>Designing for accessibility from the first sketch, rather than bolting it on later, is something I care about deeply. And it's just really fun to watch a grandmother high-five a kid because they both crossed the finish line.</p>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+  </article>
+</section>
+
+<!-- ─────────── GLOBAL PERSPECTIVE ─────────── -->
+<section class="global-section section-dark" id="global">
+  <div class="global-inner">
+    <div class="global-copy reveal">
+      <div class="section-eyebrow">A global perspective</div>
+      <h2 class="global-title">A few of the places <em>I've worked.</em></h2>
+      <p>Aviation and global consulting took me through these twelve cities — some for a project, some for longer. The part I loved was designing alongside teams whose context I didn't already know. It taught me to build things that work for a worldwide audience, not just the room I happen to be in — there's no substitute for showing up, listening, and letting people teach you what the problem actually is.</p>
+
+      <div class="global-cities">
+        <button class="global-city" data-lat="34.05" data-lon="-118.24">Los Angeles</button>
+        <button class="global-city" data-lat="37.39" data-lon="-122.08">Mountain View</button>
+        <button class="global-city" data-lat="40.42" data-lon="-82.91">Ohio</button>
+        <button class="global-city" data-lat="41.88" data-lon="-87.63">Chicago</button>
+        <button class="global-city" data-lat="56.46" data-lon="-2.97">Dundee</button>
+        <button class="global-city" data-lat="51.51" data-lon="-0.13">London</button>
+        <button class="global-city" data-lat="28.61" data-lon="77.21">Delhi</button>
+        <button class="global-city" data-lat="17.39" data-lon="78.49">Hyderabad</button>
+        <button class="global-city" data-lat="12.97" data-lon="77.59">Bengaluru</button>
+        <button class="global-city" data-lat="9.93" data-lon="76.27">Kochi</button>
+        <button class="global-city" data-lat="-31.95" data-lon="115.86">Perth</button>
+        <button class="global-city" data-lat="-37.81" data-lon="144.96">Melbourne</button>
+      </div>
+    </div>
+
+    <div class="globe-wrap reveal">
+      <div class="globe-glow"></div>
+      <svg class="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-label="Rotating globe showing cities where Keri has worked">
+        <!-- Sphere background -->
+        <circle class="globe-bg" cx="200" cy="200" r="180" />
+        <!-- Graticule (latitude + longitude lines) drawn dynamically -->
+        <g id="globe-graticule"></g>
+        <!-- Continents drawn dynamically -->
+        <g id="globe-continents"></g>
+        <!-- Cities drawn dynamically -->
+        <g id="globe-cities"></g>
+        <!-- City labels drawn dynamically -->
+        <g id="globe-labels"></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── LEADERSHIP ─────────── -->
+<section class="leadership-section" id="leadership">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Experience</div>
+      <h2 class="section-title">The <em>path here.</em></h2>
+    </div>
+
+    <div class="timeline-list">
+      <div class="tl-row reveal">
+        <div class="tl-year">2025 — Now</div>
+        <div>
+          <div class="tl-role">Advising, Speaking &amp; AI Product Design</div>
+          <div class="tl-org">UX Wizards · independent</div>
+        </div>
+        <div class="tl-desc">Launched a Design Mentorship Program under UX Wizards with paid curriculum I built, plus ongoing AI knowledge shares for the community.</div>
+      </div>
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2021 — 2025</div>
+        <div>
+          <div class="tl-role">Senior Product &amp; UX Design</div>
+          <div class="tl-org">Tata Group · SF Bay Area</div>
+        </div>
+        <div class="tl-desc">
+          Three design roles across the Tata Group, modernizing global enterprise platforms hands-on, end to end.
+          <ul class="tl-subroles">
+            <li><strong>Tata Elxsi:</strong> UX strategy for global clients across automotive, media, and healthcare.</li>
+            <li><strong>Air India US:</strong> Drove UX strategy for global enterprise platforms, modernizing legacy aviation systems end to end.</li>
+            <li><strong>Tata Digital US:</strong> Designed core flows for TataNeu's cross-regional super-app ecosystem.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2019 — 2021</div>
+        <div>
+          <div class="tl-role">Senior UX/UI Lead</div>
+          <div class="tl-org">Walmart · Marketplace · Design Systems · Merch Tech</div>
+        </div>
+        <div class="tl-desc">Three roles in two years across Walmart's design org.</div>
+      </div>
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2015 — 2019</div>
+        <div>
+          <div class="tl-role">Design Lead, Innovation Studio</div>
+          <div class="tl-org">Tata Consultancy Services · Santa Clara</div>
+        </div>
+        <div class="tl-desc">Design lead across innovation work — Marathon City (Red Dot 2019), AGL, Woodside, and clients including Cisco and United.</div>
+      </div>
+
+      <div class="tl-row reveal">
+        <div class="tl-year">2005 — 2014</div>
+        <div>
+          <div class="tl-role">Early career</div>
+          <div class="tl-org">UK &amp; US · Hollinger Scott · IC-CAVE · Digital Imagination</div>
+        </div>
+        <div class="tl-desc">Retail interfaces, web and brand work in Dundee, and a games and e-learning research center.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── CLOSING ─────────── -->
+<section class="closing section-dark" id="contact">
+  <div class="closing-inner">
+    <div class="closing-eyebrow">Let's talk</div>
+    <h2 class="closing-title">Let's <em>talk.</em></h2>
+    <p class="closing-pitch">
+      I've spent a career making design make sense to people — designers, engineers, executives, and the occasional kid at a marathon expo. I'm currently looking for my next challenge: a hands-on senior product design role, driving AI product innovation, or stepping into a Design Evangelist role. Let's build something real together.
+    </p>
+
+    <div class="contact-row">
+      <div class="contact-cell">
+        <div class="cl">Email</div>
+        <a href="mailto:uxkeri@gmail.com">uxkeri@gmail.com</a>
+      </div>
+      <div class="contact-cell">
+        <div class="cl">Web</div>
+        <a href="https://www.kerifullwood.com" target="_blank" rel="noopener">kerifullwood.com</a>
+      </div>
+      <div class="contact-cell">
+        <div class="cl">LinkedIn</div>
+        <a href="https://www.linkedin.com/in/kerif" target="_blank" rel="noopener">/in/kerif</a>
+      </div>
+      <div class="contact-cell">
+        <div class="cl">Phone</div>
+        <a href="tel:+14155193433">(415) 519-3433</a>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <div>Keri Fullwood · Senior Product Designer &amp; Community Builder</div>
+      <div>Made with care · 2026</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ─────────── CUSTOM CURSOR ───────────
+  const cursor = document.querySelector('.cursor');
+  const cursorRing = document.querySelector('.cursor-ring');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  // Smooth ring following
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Cursor expand on interactive elements
+  document.querySelectorAll('a, button, .ep-card, .stat-cell, .ds-token, .runner-track').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+  // ─────────── PROGRESS BAR ───────────
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = (window.scrollY / total) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // ─────────── NAV THEME SWITCHING ───────────
+  const nav = document.getElementById('topnav');
+  const darkSections = document.querySelectorAll('.section-dark');
+
+  function checkNavTheme() {
+    const navHeight = 60;
+    let isOverDark = false;
+
+    darkSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= navHeight && rect.bottom >= navHeight) {
+        isOverDark = true;
+      }
+    });
+
+    if (isOverDark) {
+      nav.classList.add('dark');
+    } else {
+      nav.classList.remove('dark');
+    }
+  }
+  window.addEventListener('scroll', checkNavTheme);
+  checkNavTheme();
+
+  // ─────────── REVEAL ON SCROLL ───────────
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger, .principle');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // ─────────── NUMBERS (static at target) ───────────
+  // Counters are rendered at their target values in markup; no animation.
+
+
+  // ─────────── VIDEOS: PLAY ONLY WHEN VISIBLE ───────────
+  // Saves bandwidth on first paint and pauses video when scrolled out of view.
+  const caseVideos = document.querySelectorAll('.case-video video');
+  if (caseVideos.length) {
+    const videoObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const v = entry.target;
+        if (entry.isIntersecting) {
+          // Set src lazily on first reveal if data-src is used (not currently),
+          // and start playback. Browsers may reject; catch silently.
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    caseVideos.forEach(v => videoObs.observe(v));
+  }
+
+  // ─────────── WAVEFORM BARS ───────────
+  const waveContainer = document.getElementById('wave-bars');
+  if (waveContainer) {
+    const barCount = 48;
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('span');
+      const h = 25 + Math.random() * 75;
+      const delay = (i * 0.04).toFixed(2);
+      bar.style.height = h + '%';
+      bar.style.animationDelay = delay + 's';
+      // Occasional accent bar in warm tone
+      if (i % 9 === 0) bar.style.background = 'linear-gradient(180deg, #d4a574, rgba(212, 165, 116, 0.3))';
+      waveContainer.appendChild(bar);
+    }
+  }
+
+  // ─────────── PARALLAX ON STAGES ───────────
+  const stages = document.querySelectorAll('.case-stage');
+  window.addEventListener('scroll', () => {
+    stages.forEach(stage => {
+      const rect = stage.getBoundingClientRect();
+      const content = stage.querySelector('.stage-content');
+      const photo = stage.querySelector('.stage-photo');
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        if (content) {
+          const translate = (progress - 0.5) * 20;
+          content.style.transform = `translateY(${translate}px)`;
+        }
+        if (photo) {
+          const translate = (progress - 0.5) * 16;
+          photo.style.transform = `translateY(${translate}px) scale(1.04)`;
+        }
+      }
+    });
+  });
+
+  // ─────────── MARATHON RUNNER ANIMATION ON HOVER ───────────
+  document.querySelectorAll('.runner-track').forEach((track, i) => {
+    track.addEventListener('mouseenter', () => {
+      track.style.transform = 'translateY(-12px)';
+    });
+    track.addEventListener('mouseleave', () => {
+      track.style.transform = 'translateY(0)';
+    });
+  });
+
+  // ─────────── GLOBE: real coastlines, click-to-spin, city labels ───────────
+  (function setupGlobe() {
+    const svg = document.querySelector('.globe-svg');
+    if (!svg) return;
+
+    const graticuleGroup = svg.querySelector('#globe-graticule');
+    const continentGroup = svg.querySelector('#globe-continents');
+    const citiesGroup    = svg.querySelector('#globe-cities');
+    const labelsGroup    = svg.querySelector('#globe-labels');
+    const cx = 200, cy = 200, R = 180;
+    const NS = 'http://www.w3.org/2000/svg';
+
+    const cities = [
+      { name: 'Los Angeles',   lat:  34.05, lon: -118.24 },
+      { name: 'Mountain View', lat:  37.39, lon: -122.08 },
+      { name: 'Ohio',          lat:  40.42, lon:  -82.91 },
+      { name: 'Chicago',       lat:  41.88, lon:  -87.63 },
+      { name: 'Dundee',        lat:  56.46, lon:   -2.97 },
+      { name: 'London',        lat:  51.51, lon:   -0.13 },
+      { name: 'Delhi',         lat:  28.61, lon:   77.21 },
+      { name: 'Hyderabad',     lat:  17.39, lon:   78.49 },
+      { name: 'Bengaluru',     lat:  12.97, lon:   77.59 },
+      { name: 'Kochi',         lat:   9.93, lon:   76.27 },
+      { name: 'Perth',         lat: -31.95, lon:  115.86 },
+      { name: 'Melbourne',     lat: -37.81, lon:  144.96 },
+    ];
+
+    const LAND_POLYS = [[[-84.71,-180],[-84.14,-179.06],[-84.42,-177.14],[-84.23,-176.52],[-84.1,-176.08],[-84.12,-175.83],[-84.12,-173.12],[-83.88,-169.95],[-84.24,-168.53],[-84.83,-164.18],[-85.37,-158.07],[-85.3,-150.94],[-85.31,-145.89],[-84.57,-142.89],[-84.3,-150.06],[-83.69,-153.59],[-82.83,-153.04],[-82.04,-152.86],[-81.41,-155.29],[-81.16,-154.41],[-81.34,-150.65],[-80.67,-147.22],[-79.93,-146.77],[-79.36,-149.53],[-79.16,-153.39],[-78.69,-155.98],[-78.03,-158.05],[-76.99,-157.87],[-77.2,-155.33],[-77.5,-152.92],[-77.18,-150],[-76.58,-147.61],[-76.11,-146.15],[-75.38,-146.2],[-75.54,-144.32],[-75.09,-141.64],[-74.97,-138.86],[-74.52,-136.43],[-74.36,-134.43],[-74.3,-132.26],[-74.46,-129.55],[-74.42,-126.89],[-74.48,-124.01],[-74.52,-121.07],[-74.18,-118.68],[-74.24,-116.21],[-73.72,-113.94],[-74.38,-112.95],[-74.42,-111.26],[-74.91,-108.72],[-75.13,-106.15],[-74.99,-103.37],[-75.3,-100.64],[-74.54,-100.76],[-74.11,-102.55],[-73.36,-103.33],[-72.75,-102.92],[-72.75,-100.31],[-73.21,-98.12],[-73.62,-96.34],[-73.28,-93.67],[-73.4,-91.42],[-72.56,-89.23],[-73.19,-87.27],[-73.48,-85.19],[-73.64,-82.67],[-73.48,-80.69],[-73.52,-79.3],[-73.64,-76.91],[-73.87,-74.89],[-73.4,-72.83],[-73.15,-70.21],[-72.79,-67.96],[-72.05,-67.14],[-71.25,-67.56],[-70.46,-68.23],[-69.72,-68.54],[-68.95,-67.98],[-68.15,-67.43],[-67.33,-67.74],[-66.58,-66.7],[-65.9,-65.37],[-65.17,-64.18],[-64.64,-63],[-64.27,-61.41],[-63.96,-59.89],[-63.39,-58.6],[-63.53,-57.22],[-64.15,-58.61],[-64.21,-59.79],[-64.55,-61.3],[-65.09,-62.51],[-65.86,-62.59],[-66.43,-62.8],[-66.84,-64.29],[-67.58,-65.51],[-68.37,-65.31],[-68.91,-63.96],[-69.62,-62.79],[-70.38,-62.28],[-71.09,-61.51],[-72.38,-61.08],[-73.17,-60.69],[-74.11,-61.38],[-74.58,-63.29],[-75.26,-64.35],[-75.79,-67.19],[-76.22,-69.8],[-76.67,-72.21],[-76.71,-75.56],[-77.11,-76.93],[-77.56,-74.28],[-78.22,-74.77],[-78.38,-77.92],[-79.18,-78.03],[-79.89,-76.63],[-80.42,-73.24],[-81,-70.01],[-81.47,-65.71],[-82.04,-61.55],[-82.85,-58.71],[-82.87,-57.01],[-82.26,-53.62],[-81.73,-49.76],[-81.85,-44.83],[-81.65,-42.16],[-81.34,-38.24],[-80.91,-34.39],[-80.59,-30.1],[-79.98,-29.26],[-79.26,-29.68],[-79.46,-33.68],[-79.08,-35.92],[-78.12,-35.33],[-77.65,-32.21],[-77.07,-29.78],[-76.5,-27.51],[-76.28,-25.48],[-76.11,-22.46],[-75.67,-20.01],[-75.13,-17.52],[-74.5,-15.7],[-73.87,-16.46],[-73.15,-15.45],[-72.72,-13.31],[-72.01,-11.51],[-71.26,-10.29],[-71.66,-8.61],[-71.32,-7.38],[-71.03,-5.79],[-71.46,-4.34],[-71.17,-1.79],[-71.64,-0.23],[-71.13,1.89],[-70.85,4.14],[-70.46,6.27],[-69.89,7.74],[-70.01,9.52],[-70.83,10.82],[-70.25,12.4],[-70.03,14.74],[-70.03,15.95],[-69.88,18.2],[-70.01,20.37],[-70.4,21.92],[-70.52,23.66],[-70.48,25.98],[-70.33,28.09],[-69.93,30.03],[-69.66,31.99],[-68.84,33.3],[-68.66,34.91],[-69.25,36.16],[-69.52,37.91],[-69.54,39.67],[-68.93,40.92],[-68.46,42.94],[-68.05,44.9],[-67.6,46.5],[-67.37,48.34],[-67.11,49.93],[-66.52,50.95],[-66.05,52.61],[-65.82,54.54],[-65.98,56.36],[-66.68,57.26],[-67.29,58.74],[-67.68,60.6],[-68.01,62.39],[-67.41,64.05],[-67.74,65.97],[-67.93,67.89],[-68.97,69.71],[-69.68,69.55],[-70.3,67.81],[-70.68,69.06],[-71.44,68.42],[-72.17,68.71],[-72.09,71.02],[-71.32,71.91],[-70.72,73.08],[-69.88,73.86],[-69.74,75.63],[-69.46,77.64],[-68.7,78.43],[-68.07,80.09],[-67.54,81.49],[-67.21,82.78],[-67.21,84.67],[-67.15,86.75],[-66.21,87.99],[-66.96,88.83],[-67.23,90.63],[-67.19,92.61],[-67.11,94.18],[-67.39,95.78],[-67.25,97.76],[-67.25,99.72],[-66.58,100.89],[-65.56,102.83],[-65.98,104.24],[-66.94,106.18],[-66.96,108.08],[-66.7,110.23],[-66.13,111.74],[-65.88,113.6],[-66.39,114.9],[-66.66,116.7],[-67.17,118.58],[-67.19,120.87],[-66.56,122.32],[-66.62,124.12],[-66.56,126.1],[-66.66,127.88],[-66.58,129.7],[-66.39,131.8],[-66.29,133.85],[-65.72,135.03],[-65.58,135.7],[-66.45,136.21],[-66.96,137.46],[-66.88,139.91],[-66.82,142.12],[-66.84,144.37],[-67.23,146.2],[-67.89,146.65],[-68.39,148.84],[-68.72,151.48],[-68.9,153.64],[-68.84,155.17],[-69.38,156.81],[-69.6,159.18],[-70.23,160.81],[-70.74,162.69],[-70.78,164.92],[-70.83,167.31],[-71.21,169.46],[-71.7,171.21],[-72.44,170.56],[-73.24,169.76],[-73.81,167.98],[-74.38,166.09],[-75.15,164.96],[-75.87,163.82],[-76.69,163.47],[-77.46,164.06],[-78.18,164.74],[-78.75,167],[-79.12,163.67],[-79.73,160.92],[-80.57,160.32],[-81.28,161.12],[-82.06,162.49],[-82.71,165.1],[-83.34,168.89],[-84.04,172.29],[-84.41,173.22],[-84.47,178.28]],[[-40.92,173.02],[-41.33,173.25],[-40.93,173.96],[-41.35,174.25],[-41.77,174.25],[-42.23,173.88],[-42.97,173.22],[-43.37,172.71],[-43.85,173.08],[-43.87,172.31],[-44.24,171.45],[-44.9,171.18],[-45.91,170.62],[-46.36,169.83],[-46.64,169.33],[-46.62,168.41],[-46.29,167.76],[-46.22,166.68],[-45.85,166.51],[-45.11,167.05],[-44.12,168.3],[-43.94,168.95],[-43.56,169.67],[-43.03,170.52],[-42.51,171.13],[-41.77,171.57],[-41.51,171.95],[-40.96,172.1],[-40.49,172.8],[-40.92,173.02]],[[-36.16,174.61],[-37.21,175.34],[-36.53,175.36],[-36.8,175.81],[-37.56,175.96],[-37.88,176.76],[-37.96,177.44],[-37.58,178.01],[-37.7,178.52],[-38.58,178.28],[-39.17,177.97],[-39.15,177.21],[-39.45,176.94],[-39.88,177.03],[-40.07,176.89],[-40.61,176.51],[-41.29,176.01],[-41.69,175.24],[-41.43,175.07],[-41.28,174.65],[-40.46,175.23],[-39.91,174.9],[-39.51,173.82],[-39.15,173.85],[-38.8,174.57],[-38.03,174.74],[-37.38,174.7],[-36.71,174.29],[-36.53,174.32],[-36.12,173.84],[-35.24,173.06],[-34.53,172.63],[-34.45,173.01],[-35.01,173.55],[-35.27,174.33],[-36.16,174.61]],[[-16.56,-180],[-16.8,179.36],[-17.01,178.73],[-16.64,178.6],[-16.43,179.1],[-16.38,179.41],[-16.07,-180],[-16.02,-179.79],[-16.5,-179.92],[-16.56,-180]],[[-13.56,50.06],[-14.76,50.22],[-15.23,50.48],[-15.71,50.38],[-16,50.2],[-15.41,49.86],[-15.71,49.67],[-16.45,49.86],[-16.87,49.78],[-17.11,49.5],[-17.95,49.43],[-19.12,49.04],[-20.5,48.55],[-22.39,47.93],[-23.78,47.55],[-24.94,47.1],[-25.18,46.28],[-25.6,45.41],[-25.35,44.83],[-24.99,44.04],[-24.46,43.76],[-23.57,43.7],[-22.78,43.35],[-22.06,43.25],[-21.34,43.43],[-21.16,43.89],[-20.83,43.9],[-20.07,44.38],[-19.44,44.47],[-18.96,44.23],[-18.33,44.04],[-17.41,43.96],[-16.85,44.31],[-16.22,44.45],[-16.18,44.94],[-15.97,45.5],[-15.79,45.87],[-15.78,46.31],[-15.21,46.88],[-14.59,47.71],[-14.09,48],[-13.66,47.87],[-13.78,48.29],[-13.09,48.84],[-12.49,48.87],[-12.04,49.2],[-12.47,49.54],[-12.9,49.81],[-13.56,50.06]],[[-13.76,143.56],[-14.17,144.56],[-14.99,145.37],[-16.29,145.49],[-16.91,145.89],[-18.28,146.06],[-19.48,147.47],[-20.39,148.85],[-21.26,149.29],[-22.12,150.08],[-22.4,150.73],[-24.08,151.61],[-25.27,152.86],[-26.64,153.16],[-28.11,153.57],[-29.46,153.34],[-30.92,153.09],[-32.55,152.45],[-33.82,151.34],[-35.17,150.71],[-36.42,150.08],[-37.43,150],[-37.81,148.31],[-38.61,146.92],[-38.59,145.49],[-37.9,145.03],[-38.81,143.61],[-38.38,142.18],[-38.02,140.64],[-36.64,139.81],[-35.73,139.08],[-35.13,138.45],[-35.08,137.72],[-34.71,137.35],[-33.64,137.89],[-33.75,137],[-34.89,135.99],[-33.95,135.24],[-32.85,134.09],[-32.01,132.99],[-31.5,131.33],[-31.95,128.24],[-32.22,126.15],[-32.96,124.22],[-33.89,123.66],[-34,122.18],[-33.93,120.58],[-34.51,119.3],[-34.75,118.5],[-35.03,117.29],[-34.39,115.56],[-33.62,115.05],[-33.26,115.71],[-32.21,115.8],[-30.6,115.16],[-29.46,115.04],[-28.52,114.62],[-27.33,114.05],[-26.12,113.34],[-25.62,113.44],[-26.3,114.23],[-25,113.72],[-24.38,113.39],[-23.56,113.71],[-22.47,113.74],[-22.52,114.22],[-21.49,115.46],[-20.7,116.71],[-20.75,117.44],[-20.26,118.84],[-19.95,119.25],[-19.68,120.86],[-18.71,121.65],[-17.8,122.29],[-16.41,123.01],[-17.07,123.86],[-16.11,123.82],[-15.57,124.38],[-14.68,125.17],[-14.23,125.69],[-14.1,126.14],[-13.82,127.07],[-14.87,128.36],[-14.97,129.62],[-13.62,129.89],[-13.11,130.18],[-12.18,131.22],[-12.11,132.58],[-11.27,131.82],[-11.38,133.02],[-12.04,134.39],[-12.25,135.3],[-12.05,136.26],[-12.35,136.95],[-13.29,136.31],[-13.72,136.08],[-14.72,135.43],[-15.55,136.3],[-16.22,137.58],[-16.81,138.59],[-17.37,139.26],[-17.37,140.87],[-16.39,141.27],[-15.04,141.7],[-14.27,141.63],[-12.94,141.65],[-12.41,141.69],[-11.33,142.12],[-10.67,142.52],[-11.78,142.87],[-12.33,143.16],[-13.4,143.6]],[[-1.15,134.14],[-2.77,134.42],[-3.37,135.46],[-2.31,136.29],[-1.7,137.44],[-1.7,138.33],[-2.05,139.19],[-2.41,139.93],[-2.6,141],[-3.29,142.74],[-3.86,144.58],[-4.37,145.27],[-4.88,145.83],[-5.47,145.98],[-6.08,147.65],[-6.61,147.89],[-6.72,146.97],[-7.39,147.19],[-8.04,148.09],[-9.11,148.73],[-9.07,149.31],[-9.51,149.27],[-9.68,150.04],[-9.87,149.74],[-10.29,150.8],[-10.58,150.69],[-10.65,150.03],[-10.39,149.78],[-10.28,148.92],[-10.13,147.91],[-9.49,147.14],[-8.94,146.57],[-8.07,146.05],[-7.63,144.74],[-7.92,143.9],[-8.25,143.29],[-8.98,143.41],[-9.33,142.63],[-9.16,142.07],[-9.12,141.03],[-8.3,140.14],[-8.1,139.13],[-8.38,138.88],[-8.41,137.61],[-7.6,138.04],[-7.32,138.67],[-6.23,138.41],[-5.39,137.93],[-4.55,135.99],[-4.46,135.17],[-3.54,133.66],[-4.02,133.37],[-4.11,132.98],[-3.75,132.76],[-3.31,132.75],[-2.82,131.99],[-2.46,133.07],[-2.48,133.78],[-2.21,133.7],[-2.21,132.23],[-1.62,131.84],[-1.43,130.94],[-0.94,130.52],[-0.7,131.87],[-0.37,132.38],[-0.78,133.98],[-1.15,134.14]],[[1.42,125.24],[0.43,124.44],[0.24,123.68],[0.43,122.72],[0.38,121.06],[0.24,120.18],[-0.52,120.04],[-1.41,120.93],[-0.96,121.47],[-0.62,123.34],[-1.08,123.26],[-0.93,122.82],[-1.52,122.39],[-1.91,121.51],[-3.19,122.45],[-3.53,122.27],[-4.68,123.17],[-5.34,123.16],[-5.63,122.63],[-5.28,122.24],[-4.46,122.72],[-4.85,121.74],[-4.57,121.49],[-4.19,121.62],[-3.6,120.9],[-2.63,120.97],[-2.93,120.3],[-4.1,120.39],[-5.53,120.43],[-5.67,119.8],[-5.38,119.37],[-4.46,119.65],[-3.49,119.5],[-3.49,119.08],[-2.8,118.77],[-2.15,119.18],[-1.35,119.32],[0.15,119.83],[0.57,120.03],[1.31,120.89],[1.01,121.67],[0.88,122.93],[0.92,124.08],[1.64,125.07],[1.42,125.24]],[[-5.85,105.82],[-5.87,104.71],[-5.04,103.87],[-4.22,102.58],[-3.61,102.16],[-2.8,101.4],[-2.05,100.9],[-0.65,100.14],[0.18,99.26],[1.04,98.97],[1.82,98.6],[2.45,97.7],[3.31,97.18],[3.87,96.43],[4.97,95.38],[5.48,95.29],[5.44,95.94],[5.25,97.48],[4.27,98.37],[3.59,99.14],[3.17,99.69],[2.1,100.64],[2.08,101.66],[1.4,102.5],[0.56,103.08],[0.1,103.84],[-0.71,103.44],[-1.06,104.01],[-1.08,104.37],[-1.78,104.54],[-2.34,104.89],[-2.43,105.62],[-3.06,106.11],[-4.31,105.86],[-5.85,105.82]],[[1.83,117.87],[0.9,119],[0.78,117.81],[0.1,117.48],[-0.8,117.52],[-1.49,116.56],[-2.48,116.53],[-4.01,116.15],[-3.66,116],[-4.11,114.86],[-3.5,114.47],[-3.44,113.76],[-3.12,113.26],[-3.48,112.07],[-3,111.7],[-3.05,111.05],[-2.93,110.22],[-1.59,110.07],[-1.31,109.57],[-0.46,109.09],[0.42,108.95],[1.34,109.07],[2.01,109.66],[1.66,110.4],[1.85,111.17],[2.7,111.37],[2.89,111.8],[3.1,113],[3.89,113.71],[4.53,114.21],[4.9,114.6],[5.45,115.45],[6.14,116.22],[6.92,116.73],[6.93,117.13],[6.42,117.64],[5.99,117.69],[5.71,118.35],[5.41,119.18],[5.02,119.11],[4.97,118.44],[4.48,118.62],[4.14,117.88],[3.24,117.31],[2.29,118.05],[1.83,117.87]],[[37.14,140.98],[36.34,140.6],[35.84,140.77],[35.14,140.25],[34.67,138.97],[34.61,137.22],[33.46,135.79],[33.85,135.12],[34.6,135.08],[34.38,133.34],[33.9,132.16],[33.89,130.99],[33.15,132],[31.45,131.33],[31.03,130.69],[31.42,130.2],[32.32,130.45],[32.61,129.82],[33.3,129.41],[33.6,130.36],[34.23,130.88],[34.75,131.89],[35.43,132.62],[35.73,134.61],[35.53,135.68],[37.3,136.72],[36.83,137.39],[37.83,138.86],[38.22,139.43],[39.44,140.05],[40.56,139.88],[41.2,140.31],[41.38,141.37],[39.99,141.92],[39.18,141.88],[38.17,140.96],[37.14,140.98]],[[58.63,-3],[57.55,-4.07],[57.69,-3.05],[57.68,-1.96],[56.87,-2.22],[55.97,-3.12],[55.91,-2.09],[54.62,-1.11],[54.46,-0.43],[53.32,0.19],[52.93,0.47],[52.74,1.68],[52.1,1.56],[51.81,1.05],[51.29,1.45],[50.77,0.55],[50.78,-0.79],[50.5,-2.49],[50.7,-2.96],[50.23,-3.62],[50.34,-4.54],[49.96,-5.24],[50.16,-5.78],[51.21,-4.31],[51.43,-3.41],[51.59,-4.98],[51.99,-5.27],[52.3,-4.22],[52.84,-4.77],[53.5,-4.58],[53.4,-3.09],[53.98,-2.95],[54.61,-3.63],[54.79,-4.84],[55.06,-5.08],[55.51,-4.72],[55.78,-5.05],[55.31,-5.59],[56.27,-5.65],[56.78,-6.15],[57.82,-5.79],[58.63,-5.01],[58.55,-4.21],[58.63,-3]],[[68.96,-180],[67.21,-174.93],[66.34,-174.34],[66.91,-171.86],[65.54,-170.89],[64.46,-172.56],[64.28,-173.89],[64.92,-175.98],[65.52,-177.22],[65.74,-178.9],[65.87,-179.88],[64.98,-180],[64.53,178.71],[64.08,178.31],[62.98,179.37],[62.3,179.23],[61.77,174.57],[60.95,172.15],[59.88,170.33],[59.79,166.29],[59.73,164.88],[59.21,163.22],[57.84,162.05],[56.16,163.06],[55.29,161.7],[54.35,160.37],[52.96,158.53],[51.01,156.79],[53.16,155.99],[56.77,155.92],[57.83,156.81],[59.31,160.15],[61.14,163.67],[62.47,163.26],[60.55,160.12],[61.43,156.72],[59.15,155.04],[58.78,151.26],[59.66,149.78],[59.34,145.49],[57.09,138.96],[54.6,136.7],[53.75,138.16],[54.19,139.9],[52.24,141.38],[50.05,140.51],[47,138.56],[45.14,136.86],[43.4,134.87],[42.8,132.91],[42.55,130.94],[42.28,130.4],[41.6,129.67],[40.66,129.19],[40.19,128.63],[39.76,127.53],[39.21,127.39],[38.61,128.35],[36.78,129.46],[35.08,129.09],[34.48,127.39],[34.93,126.37],[36.73,126.12],[37.75,126.18],[37.75,125.57],[37.86,125.24],[38.11,124.71],[38.67,125.22],[39.39,125.39],[39.66,124.74],[39.64,122.87],[38.9,121.05],[39.75,121.38],[40.95,121.64],[39.9,119.64],[39.2,118.04],[38.06,118.06],[37.45,118.91],[37.87,120.82],[37.46,122.36],[36.65,121.1],[35.61,119.66],[34.36,120.23],[32.46,121.23],[30.95,121.89],[30.14,121.5],[29.02,121.94],[28.14,121.13],[25.74,119.58],[23.63,117.28],[22.67,114.76],[22.55,113.81],[21.55,111.84],[20.34,110.44],[21.01,109.63],[21.72,108.52],[20.7,106.71],[19.06,105.66],[16.7,107.36],[15.28,108.88],[11.67,109.2],[10.36,107.22],[8.6,105.16],[9.92,105.08],[10.63,103.5],[12.19,102.58],[12.63,100.83],[13.41,100.1],[10.85,99.48],[9.24,99.22],[8.3,100.28],[6.86,101.02],[6.22,102.14],[5.53,102.96],[4.18,103.44],[3.38,103.43],[2.52,103.86],[1.29,104.23],[1.97,102.57],[3.27,101.27],[4.77,100.56],[6.04,100.31],[6.85,99.69],[7.91,98.99],[7.79,98.34],[8.97,98.26],[10.68,98.46],[12.03,98.43],[13.64,98.1],[16.1,97.6],[16.43,96.5],[15.8,94.81],[17.28,94.54],[19.37,93.54],[19.86,93.08],[21.19,92.08],[22.18,91.84],[22.8,90.5],[21.84,90.27],[21.86,89.7],[22.06,89.03],[21.7,88.21],[20.74,87.03],[19.48,85.06],[17.67,83.19],[16.56,82.19],[15.95,80.79],[15.14,80.02],[13.01,80.29],[10.36,79.86],[9.55,78.89],[8.93,78.28],[7.97,77.54],[10.3,76.13],[11.78,75.4],[13.99,74.62],[15.99,73.53],[19.21,72.82],[21.36,72.63],[20.88,70.47],[22.45,69.64],[23.69,68.18],[24.66,67.15],[25.24,64.53],[25.08,61.5],[25.61,58.53],[26.97,56.97],[26.96,55.72],[26.81,53.49],[27.87,51.52],[30.15,50.11],[30.32,48.94],[29.98,47.98],[29.31,48.09],[27.69,48.81],[27.11,49.47],[26.28,50.21],[25.61,50.24],[25,50.66],[25.48,50.74],[26.12,51.29],[25.22,51.61],[24.24,51.58],[24.02,51.8],[24.15,53.4],[24.8,54.69],[26.06,56.07],[26.31,56.49],[25.71,56.26],[24.24,56.85],[23.75,58.14],[22.99,59.18],[22.53,59.81],[21.71,59.44],[21.11,58.86],[20.48,58.03],[19.74,57.67],[18.95,57.7],[18.57,56.61],[17.88,56.28],[17.63,55.27],[16.95,54.79],[16.71,53.57],[16.38,52.39],[15.6,52.17],[14.71,49.57],[13.95,48.24],[13.59,47.35],[13.35,45.88],[13.03,45.41],[12.7,44.99],[12.59,44.17],[13.22,43.22],[14.06,43.09],[15.21,42.6],[15.72,42.7],[16.35,42.78],[17.08,42.35],[17.83,41.76],[19.49,40.94],[20.34,39.8],[21.99,39.02],[23.69,38.49],[24.29,37.49],[25.08,37.21],[25.83,36.64],[27.38,35.64],[28.06,34.63],[28.96,34.83],[29.5,34.92],[28.34,34.43],[27.65,33.92],[28.42,33.14],[29.76,32.32],[27.7,33.35],[25.6,34.47],[23.93,35.69],[23.1,35.53],[22,36.87],[20.84,36.97],[18.61,37.48],[18,38.41],[15.92,39.27],[14.49,41.18],[13.34,42.28],[12.7,43.08],[11.98,43.29],[11.46,43.14],[10.87,43.67],[10.44,44.61],[10.82,46.64],[11.19,48.02],[11.41,48.95],[11.58,49.73],[12.02,50.73],[11.75,51.13],[10.64,51.05],[9.2,50.55],[6.8,49.45],[4.22,47.74],[2.05,45.56],[0.29,43.14],[-1.45,41.81],[-2.08,40.88],[-2.57,40.26],[-3.68,39.8],[-4.68,39.2],[-6.48,38.8],[-7.1,39.47],[-8.01,39.25],[-9.11,39.54],[-10.32,40.32],[-11.76,40.44],[-14.2,40.6],[-15.41,40.48],[-16.72,39.45],[-17.59,37.41],[-18.84,35.9],[-19.78,34.79],[-21.25,35.18],[-22.14,35.39],[-23.07,35.53],[-23.71,35.61],[-24.48,35.04],[-25.36,33.01],[-26.15,32.66],[-26.74,32.83],[-28.3,32.46],[-29.26,31.52],[-29.91,30.9],[-31.14,30.05],[-32.77,28.22],[-33.62,26.42],[-33.95,25.78],[-33.99,24.68],[-33.92,22.99],[-34.26,21.54],[-34.8,20.07],[-34.46,19.19],[-34,18.42],[-33.87,18.24],[-32.61,17.93],[-31.66,18.22],[-29.88,17.07],[-28.58,16.35],[-27.09,15.21],[-25.39,14.74],[-22.66,14.38],[-21.7,13.87],[-19.67,12.83],[-18.07,11.8],[-16.67,11.64],[-14.88,12.12],[-13.55,12.5],[-12.48,13.31],[-11.3,13.74],[-10.37,13.39],[-9.17,12.88],[-8.56,13.24],[-6.93,12.73],[-6.1,12.32],[-5.04,11.91],[-2.97,10.07],[-1.11,8.8],[-0.46,9.05],[1.01,9.49],[2.28,9.65],[3.73,9.41],[4.35,8.75],[4.77,8.5],[4.47,7.08],[4.26,5.9],[5.61,5.03],[6.26,3.57],[6.14,1.87],[5.34,-0.51],[4.71,-1.96],[4.98,-3.31],[5.17,-4.65],[4.71,-6.53],[4.36,-7.71],[4.83,-9.01],[6.14,-10.77],[6.86,-11.71],[7.8,-12.95],[8.9,-13.25],[9.89,-14.07],[10.22,-14.58],[10.88,-14.84],[11.46,-15.67],[11.81,-16.31],[12.17,-16.61],[13.15,-16.84],[14.37,-17.13],[14.92,-17.18],[16.14,-16.46],[17.17,-16.27],[19.1,-16.26],[20.09,-16.28],[21,-17.06],[21.89,-16.97],[22.68,-16.26],[23.72,-15.98],[24.52,-15.09],[25.64,-14.8],[26.62,-13.78],[28.04,-12.62],[28.83,-10.9],[29.93,-9.56],[32.04,-9.43],[33.24,-8.66],[34.11,-6.91],[35.76,-5.93],[35.33,-4.59],[35.18,-2.6],[35.72,-1.21],[36.3,0.5],[36.78,3.16],[36.72,5.32],[37.12,7.33],[36.95,8.42],[37.23,10.21],[37.09,11.03],[36.41,10.6],[35.7,10.94],[34.33,10.15],[33.77,10.86],[33.14,11.49],[32.88,13.08],[32.27,15.24],[31.18,16.61],[30.27,19.09],[30.99,20.05],[32.24,20.13],[32.84,21.54],[32.19,23.24],[32.02,23.93],[31.57,25.17],[31.32,27.46],[30.87,28.91],[31.47,30.09],[31.43,31.69],[31.26,32.19],[30.97,33.77],[31.55,34.55],[32.07,34.75],[33.08,35.1],[33.91,35.48],[34.65,36],[35.82,36.15],[36.65,36.16],[36.8,34.71],[36.11,32.51],[36.68,30.62],[36.14,29.7],[36.66,27.64],[38.21,26.32],[39.46,26.17],[40.46,28.82],[41.09,31.15],[42.02,33.51],[41.34,36.91],[41.1,39.51],[41.54,41.55],[42.64,41.45],[43.13,40.32],[44.28,38.68],[45.24,36.68],[46.24,38.23],[47.05,39.15],[47.1,38.22],[46.7,36.76],[46.27,34.96],[45.41,35.51],[45.11,36.33],[44.36,33.88],[45.03,33.55],[45.52,32.63],[46.08,33.3],[46.71,31.67],[46.03,30.38],[45.04,29.63],[44.91,28.84],[43.29,28.04],[42.01,28],[41.3,28.99],[41,27.62],[40.15,26.36],[40.82,26.06],[40.95,24.92],[40.12,24.41],[39.96,23.34],[40.26,22.63],[39.19,23.35],[38.51,23.53],[37.65,24.04],[37.41,23.41],[36.42,23.15],[36.85,21.67],[38.31,21.12],[39.34,20.22],[39.69,19.98],[40.25,19.41],[41.41,19.4],[41.88,19.37],[42.28,18.88],[42.85,17.51],[43.51,16.01],[44.32,15.38],[45.08,14.9],[44.8,13.95],[45.48,13.68],[45.59,13.94],[45.38,12.33],[44.6,12.26],[43.59,13.53],[41.96,15.14],[41.74,16.17],[41.18,16.79],[40.36,18.38],[39.81,18.29],[40.44,16.87],[39.43,17.17],[38.84,16.63],[37.91,15.68],[38.75,15.89],[39.54,15.72],[40.17,15],[40.79,14.06],[41.25,12.89],[42.36,11.19],[43.92,10.2],[44.37,8.89],[43.77,7.85],[43.13,6.53],[43.07,3.1],[41.89,3.04],[41.01,0.81],[40.12,0.11],[38.74,0.11],[37.64,-0.68],[36.67,-2.15],[36.68,-4.37],[35.95,-5.38],[36.37,-6.24],[37.1,-7.45],[36.98,-8.38],[37.65,-8.75],[38.36,-9.29],[39.39,-9.45],[40.16,-8.98],[41.18,-8.79],[41.88,-9.03],[43.03,-9.39],[43.57,-6.76],[43.4,-4.35],[43.42,-1.9],[46.01,-1.19],[47.57,-2.96],[48.68,-4.59],[48.64,-1.62],[49.35,-0.99],[50.95,1.64],[51.35,3.31],[53.09,4.71],[53.48,6.91],[53.75,7.94],[54.02,8.8],[54.96,8.53],[56.54,8.09],[57.11,8.54],[57.45,9.78],[57.22,10.55],[56.61,10.37],[56.08,10.67],[55.47,9.65],[54.6,9.94],[54.01,10.94],[54.47,12.52],[53.76,14.12],[54.51,16.36],[54.68,18.62],[54.43,19.66],[55.19,21.27],[56.78,21.09],[57.75,22.52],[57.03,24.12],[58.38,24.43],[58.61,23.43],[59.47,24.6],[59.45,26.95],[60.03,29.12],[60.42,26.26],[59.85,22.87],[60.72,21.32],[62.61,21.06],[63.82,22.44],[65.11,25.4],[66.01,23.9],[65.03,21.21],[63.61,19.78],[61.34,17.12],[60.08,18.79],[58.72,16.83],[56.1,15.88],[55.41,14.1],[56.31,12.62],[58.86,11.03],[58.31,8.38],[58.59,5.66],[61.97,4.99],[63.45,8.55],[65.88,12.36],[68.56,16.44],[70.26,21.38],[71.03,24.55],[71.19,28.16],[70.19,30],[69.91,32.13],[69.06,36.51],[67.46,41.06],[66.27,40.02],[66.76,33.92],[65.9,34.81],[64.11,36.23],[64.33,37.14],[65.14,37.18],[64.76,40.44],[66.48,42.09],[66.07,43.95],[67.35,43.7],[68.57,43.45],[67.69,46.82],[67.01,45.56],[66.88,47.89],[68,50.23],[68.81,54.47],[68.1,54.73],[68.47,57.32],[68.28,59.94],[69.52,60.03],[69.55,63.5],[68.09,68.51],[69.14,68.16],[69.45,66.93],[70.71,66.72],[71.93,68.54],[73.04,69.94],[72.22,72.79],[71.09,72.47],[69.02,72.56],[67.74,73.24],[66.17,72.42],[66.79,73.92],[67.76,75.05],[68.99,74.94],[69.63,73.6],[71.45,73.1],[72.83,74.66],[72.3,75.68],[71.15,76.36],[72.27,77.58],[71.75,81.5],[73.65,80.51],[73.81,84.66],[74.46,86.01],[75.14,88.31],[75.77,92.9],[76.14,95.86],[76.45,98.92],[76.86,101.04],[77.7,104.35],[77.13,104.71],[76.48,107.24],[76.71,111.08],[75.85,114.13],[75.03,112.78],[74.18,109.4],[73.79,112.12],[73.34,113.53],[73.75,115.57],[73.12,119.02],[73.74,123.26],[73.57,126.98],[72.4,129.05],[71.19,129.71],[71.84,132.25],[71.66,135.56],[71.63,138.23],[72.42,139.15],[72.2,149.5],[70.84,152.97],[70.87,159],[69.72,159.71],[69.64,162.28],[69.47,165.94],[68.69,169.58],[69.65,170.01],[69.82,173.64],[69.4,178.6]],[[69.5,-90.55],[69.26,-89.21],[67.87,-88.32],[67.92,-86.31],[69.88,-85.52],[69.66,-82.62],[68.67,-81.22],[67.6,-81.26],[66.41,-83.35],[66.56,-85.77],[65.21,-87.03],[64.1,-88.48],[63.61,-90.7],[62.84,-91.93],[60.9,-94.24],[58.95,-94.68],[57.85,-92.76],[57.29,-90.9],[56.47,-88.04],[55.72,-86.07],[55.25,-83.36],[54.28,-82.44],[52.16,-81.4],[51.53,-79.14],[54.14,-79.12],[55.14,-78.23],[56.53,-76.54],[58.05,-77.3],[59.85,-77.34],[62.32,-78.11],[62.28,-75.7],[62.44,-73.84],[61.53,-71.68],[61.06,-69.59],[58.96,-69.29],[58.21,-67.65],[59.87,-65.25],[59.44,-63.81],[56.97,-61.4],[55.78,-60.47],[54.95,-57.98],[53.78,-56.94],[53.27,-55.76],[51.77,-56.41],[51.07,-58.78],[50.08,-61.72],[50.3,-65.36],[49.51,-67.24],[47.74,-69.95],[46.99,-70.26],[49.13,-66.55],[48.74,-64.17],[46.99,-64.8],[45.74,-63.17],[47.01,-60.52],[45.92,-59.8],[44.67,-63.25],[43.55,-65.36],[44.47,-66.16],[45.26,-66.03],[44.81,-66.97],[43.98,-69.06],[43.03,-70.69],[42.33,-70.83],[41.78,-70.08],[41.92,-69.89],[41.48,-70.64],[41.32,-71.86],[41.22,-72.88],[41.12,-72.24],[40.63,-73.35],[40.75,-73.95],[40.43,-73.96],[38.94,-74.91],[39.25,-75.2],[38.96,-75.32],[38.4,-75.06],[37.22,-75.94],[37.94,-75.72],[39.15,-76.35],[38.08,-76.33],[37.92,-76.3],[36.9,-75.97],[35.55,-75.73],[34.51,-77.4],[33.86,-78.55],[33.16,-79.2],[32.03,-80.87],[30.73,-81.49],[29.18,-80.98],[28.04,-80.53],[26.21,-80.09],[25.21,-80.38],[25.2,-81.17],[25.87,-81.71],[27.49,-82.71],[28.55,-82.65],[29.94,-83.71],[29.64,-85.11],[30.15,-85.77],[30.27,-87.53],[30.32,-89.18],[29.89,-89.41],[29.29,-89.22],[29.31,-89.78],[29.15,-90.88],[29.55,-92.5],[29.71,-93.85],[28.74,-95.6],[27.83,-97.14],[26.69,-97.38],[25.87,-97.14],[25.87,-97.14],[24.27,-97.7],[22.44,-97.87],[21.41,-97.39],[19.89,-96.53],[18.83,-95.9],[18.14,-94.43],[18.53,-92.79],[18.88,-91.41],[19.87,-90.53],[21,-90.28],[21.49,-88.54],[21.54,-87.05],[20.85,-86.85],[19.65,-87.62],[19.04,-87.59],[18.52,-88.09],[18.35,-88.3],[18.08,-88.12],[17.49,-88.2],[17.04,-88.24],[16.27,-88.55],[15.89,-88.93],[15.85,-88.52],[15.69,-88.12],[15.88,-87.62],[15.85,-87.37],[15.78,-86.44],[16.01,-86],[15.89,-85.45],[16,-84.98],[15.83,-84.37],[15.42,-83.77],[15,-83.15],[14.68,-83.29],[13.97,-83.41],[13.13,-83.55],[12.42,-83.47],[11.89,-83.72],[11.37,-83.85],[10.94,-83.66],[9.99,-83.02],[9.21,-82.19],[8.95,-81.81],[8.79,-81.44],[9.11,-80.52],[9.61,-79.57],[9.46,-79.06],[9.25,-78.05],[8.67,-77.35],[9.34,-76.08],[9.77,-75.66],[11.08,-74.91],[11.31,-74.2],[11.73,-72.63],[12.44,-71.75],[12.11,-71.14],[11.54,-71.36],[10.97,-71.62],[9.87,-72.07],[9.14,-71.26],[10.21,-71.35],[11.38,-70.16],[12.16,-69.94],[11.44,-68.88],[10.56,-68.19],[10.65,-66.23],[10.08,-64.89],[10.64,-64.32],[10.72,-61.88],[9.95,-62.39],[9.38,-60.83],[8.6,-60.15],[8,-59.1],[6.83,-58.46],[6.32,-57.54],[5.77,-55.95],[6.03,-55.03],[5.65,-53.62],[4.57,-51.82],[4.2,-51.32],[1.9,-50.51],[1.05,-49.95],[-0.08,-50.39],[-1.24,-48.58],[-0.94,-46.57],[-2.14,-44.42],[-2.38,-43.42],[-2.87,-39.98],[-4.82,-37.22],[-5.15,-35.6],[-6.74,-34.9],[-9,-35.13],[-11.04,-37.05],[-13.04,-38.42],[-13.79,-38.95],[-17.21,-39.16],[-18.26,-39.58],[-20.9,-40.78],[-22.37,-41.76],[-22.97,-43.08],[-23.8,-45.35],[-24.89,-47.65],[-26.62,-48.64],[-28.19,-48.66],[-29.22,-49.59],[-31.78,-51.58],[-33.2,-52.71],[-34.4,-53.81],[-34.75,-55.67],[-34.43,-57.14],[-33.91,-58.43],[-35.29,-57.22],[-36.41,-56.74],[-38.18,-57.75],[-38.93,-61.24],[-39.42,-62.12],[-40.68,-62.15],[-41.17,-63.77],[-41.06,-65.12],[-42.36,-64.3],[-42.56,-63.46],[-43.49,-65.18],[-45.04,-65.57],[-45.55,-67.29],[-47.03,-66.6],[-48.13,-65.99],[-49.87,-67.82],[-50.73,-69.14],[-52.35,-68.15],[-52.29,-69.46],[-52.9,-70.84],[-53.86,-71.43],[-52.83,-73.7],[-51.63,-75.26],[-50.38,-75.48],[-47.71,-75.18],[-46.65,-75.65],[-44.1,-74.35],[-42.38,-72.72],[-43.37,-73.7],[-41.8,-74.02],[-39.26,-73.22],[-37.16,-73.59],[-35.51,-72.55],[-32.42,-71.44],[-30.1,-71.37],[-27.64,-70.9],[-23.63,-70.4],[-19.76,-70.16],[-17.77,-71.38],[-16.36,-73.45],[-14.65,-76.01],[-13.53,-76.26],[-10.38,-78.09],[-7.93,-79.45],[-6.54,-80.54],[-5.69,-80.93],[-4.04,-81.1],[-2.66,-79.77],[-2.69,-80.37],[-1.96,-80.77],[-0.91,-80.59],[0.36,-80.02],[0.98,-79.54],[1.69,-78.99],[2.27,-78.66],[2.7,-77.93],[3.85,-77.13],[4.67,-77.31],[5.84,-77.32],[7.22,-77.88],[8.05,-78.43],[8.39,-78.44],[9,-79.12],[8.59,-79.76],[8.3,-80.38],[7.55,-80.01],[7.27,-80.42],[7.82,-81.06],[7.71,-81.52],[8.18,-82.13],[8.29,-82.82],[8.22,-82.96],[8.66,-83.71],[9.05,-83.63],[9.49,-84.3],[9.91,-84.71],[9.8,-84.91],[9.83,-85.34],[10.14,-85.8],[10.76,-85.66],[11.09,-85.71],[11.81,-86.53],[12.46,-87.17],[13.07,-87.56],[12.98,-87.32],[13.39,-87.79],[13.16,-88.48],[13.46,-89.26],[13.74,-90.1],[13.93,-91.23],[14.54,-92.23],[15.94,-93.88],[16.13,-95.25],[15.65,-96.56],[16.11,-98.01],[16.71,-99.7],[17.65,-101.67],[17.98,-102.48],[18.75,-103.92],[19.95,-105.49],[20.53,-105.4],[21.08,-105.27],[21.87,-105.6],[22.77,-106.03],[24.55,-107.92],[25.58,-109.26],[26.44,-109.29],[27.16,-110.39],[27.94,-111.18],[28.96,-112.23],[30.02,-112.81],[31.17,-113.15],[31.52,-114.21],[31.39,-114.94],[30.16,-114.67],[29.06,-113.59],[28.76,-113.27],[28.43,-112.96],[27.53,-112.46],[26.66,-111.62],[25.29,-110.99],[24.3,-110.66],[23.81,-109.77],[23.19,-109.43],[22.82,-110.03],[24,-110.95],[24.74,-112.18],[26.01,-112.3],[26.77,-113.46],[26.9,-113.85],[27.72,-115.06],[27.74,-114.57],[28.57,-114.16],[29.56,-115.52],[30.84,-116.26],[32.53,-117.13],[33.62,-117.94],[34.03,-118.52],[34.35,-119.44],[34.61,-120.62],[36.16,-121.72],[37.78,-122.51],[38.95,-123.73],[40.31,-124.4],[42,-124.21],[43.71,-124.14],[46.86,-124.08],[48.18,-124.69],[48.04,-123.12],[47.36,-122.34],[49,-122.84],[49.99,-124.91],[50.83,-127.44],[52.33,-127.85],[53.56,-129.3],[54.8,-130.54],[55.5,-131.97],[57.18,-133.54],[58.19,-135.04],[58.5,-137.8],[59.73,-140.82],[60,-143.96],[60.89,-147.11],[59.98,-148.02],[59.71,-149.73],[59.16,-151.71],[60.73,-151.41],[61.28,-150.62],[60.06,-152.58],[58.86,-153.29],[57.73,-155.31],[56.98,-156.56],[55.99,-158.43],[55.64,-160.29],[55.02,-162.24],[54.4,-164.79],[55.04,-163.85],[55.9,-161.81],[56.42,-160.07],[57.22,-158.46],[58.33,-157.55],[58.62,-158.19],[58.42,-159.06],[58.57,-159.98],[58.67,-161.36],[59.27,-162.05],[59.99,-162.52],[60.27,-164.66],[61.07,-165.35],[62.08,-165.73],[63.15,-164.56],[63.06,-163.07],[63.46,-161.54],[64.22,-160.96],[64.79,-160.78],[64.56,-162.45],[64.56,-163.55],[64.69,-166.42],[65.67,-168.11],[66.58,-164.47],[66.08,-163.79],[66.73,-162.49],[67.62,-164.43],[68.36,-166.76],[68.91,-164.43],[69.86,-162.93],[70.45,-160.93],[70.82,-158.12],[71.15,-155.07],[70.89,-153.9],[70.6,-152.27],[70.53,-149.72],[70.12,-145.69],[70.15,-143.59],[69.71,-140.99],[68.99,-137.54],[69.32,-135.63],[69.51,-132.93],[70.19,-129.79],[70.01,-128.36],[70.38,-127.45],[70.16,-124.43],[69.56,-123.06],[69.8,-121.47],[69.01,-117.6],[68.91,-115.25],[67.9,-115.3],[67.81,-110.8],[67.38,-108.88],[68.31,-108.81],[68.7,-106.95],[68.56,-105.34],[68.1,-103.22],[67.81,-99.9],[68.4,-98.56],[68.24,-96.12],[68.09,-95.49],[69.07,-94.23],[70.09,-96.47],[71.92,-95.21],[71.32,-92.88],[69.7,-92.41]],[[73.12,-114.17],[72.65,-114.67],[72.95,-112.44],[72.45,-111.05],[72.96,-109.92],[72.63,-109.01],[71.65,-108.19],[72.06,-107.69],[73.09,-108.4],[73.24,-107.52],[73.08,-106.52],[72.67,-105.4],[71.7,-104.77],[70.99,-104.46],[70.5,-102.79],[70.03,-100.98],[69.59,-101.09],[69.5,-102.73],[69.12,-102.09],[68.75,-102.43],[68.91,-104.24],[69.18,-105.96],[69.12,-107.12],[68.78,-109],[68.61,-111.97],[68.54,-113.31],[69.01,-113.86],[69.28,-115.22],[69.17,-116.11],[69.96,-117.34],[70.07,-116.68],[70.24,-115.13],[70.19,-113.72],[70.37,-112.42],[70.6,-114.35],[70.52,-116.49],[70.54,-117.91],[70.91,-118.43],[71.31,-116.11],[71.29,-117.65],[71.56,-119.4],[72.31,-118.56],[72.71,-117.87],[73.31,-115.19],[73.12,-114.17]],[[73.16,-86.56],[72.53,-85.77],[73.34,-84.85],[73.75,-82.32],[72.72,-80.6],[72.06,-80.75],[72.35,-78.77],[72.75,-77.82],[72.24,-75.61],[71.77,-74.23],[71.33,-74.1],[71.56,-72.24],[70.92,-71.2],[70.52,-68.79],[70.12,-67.92],[69.19,-66.97],[68.72,-68.81],[68.07,-66.45],[67.85,-64.86],[66.93,-63.42],[66.86,-61.85],[66.16,-62.16],[65,-63.92],[65.43,-65.15],[66.39,-66.72],[66.26,-68.01],[65.69,-68.14],[65.11,-67.09],[64.65,-65.73],[64.38,-65.32],[63.39,-64.67],[62.67,-65.01],[62.95,-66.27],[63.75,-68.78],[62.88,-67.37],[62.28,-66.33],[61.93,-66.17],[62.33,-68.88],[62.91,-71.02],[63.4,-72.24],[63.68,-71.89],[64.19,-73.38],[64.68,-74.84],[64.39,-74.82],[64.23,-77.71],[64.57,-78.55],[65.31,-77.9],[65.33,-76.02],[65.46,-73.96],[65.81,-74.29],[66.31,-73.95],[67.28,-72.65],[67.73,-72.93],[68.07,-73.31],[68.55,-74.84],[68.89,-76.87],[69.15,-76.23],[69.77,-77.29],[69.83,-78.17],[70.17,-78.96],[69.87,-79.49],[69.74,-81.31],[69.97,-84.94],[70.26,-87.06],[70.41,-88.68],[70.76,-89.51],[71.22,-88.47],[71.22,-89.89],[72.24,-90.2],[73.13,-89.44],[73.54,-88.41],[73.8,-85.83],[73.16,-86.56]],[[70.72,57.53],[70.63,56.94],[70.76,53.68],[71.21,53.41],[71.47,51.6],[72.02,51.46],[72.23,52.48],[72.78,52.44],[73.63,54.43],[73.75,53.51],[74.63,55.9],[75.08,55.63],[75.61,57.87],[76.25,61.17],[76.44,64.5],[76.81,66.21],[76.94,68.16],[76.54,68.85],[76.23,68.18],[75.74,64.64],[75.26,61.58],[74.31,58.48],[73.33,56.99],[72.37,55.42],[71.54,55.62],[70.72,57.53]],[[77.1,-94.68],[76.78,-93.57],[76.78,-91.6],[76.45,-90.74],[76.07,-90.97],[75.85,-89.82],[75.61,-89.19],[75.57,-87.84],[75.48,-86.38],[75.7,-84.79],[75.78,-82.75],[75.71,-81.13],[75.34,-80.06],[74.92,-79.83],[74.66,-80.46],[74.44,-81.95],[74.56,-83.23],[74.41,-86.1],[74.39,-88.15],[74.52,-89.77],[74.84,-92.42],[75.39,-92.77],[75.88,-92.89],[76.32,-93.89],[76.44,-95.96],[76.75,-97.12],[77.16,-96.75],[77.1,-94.68]],[[83.11,-68.5],[83.03,-65.83],[82.9,-63.68],[82.63,-61.85],[82.36,-61.89],[81.93,-64.33],[81.73,-66.75],[81.5,-67.66],[81.51,-65.48],[80.9,-67.84],[80.62,-69.47],[79.8,-71.18],[79.63,-73.24],[79.43,-73.88],[79.32,-76.91],[79.2,-75.53],[79.02,-76.22],[78.53,-75.39],[78.18,-76.34],[77.9,-77.89],[77.51,-78.36],[77.21,-79.76],[76.98,-79.62],[77.02,-77.91],[76.78,-77.89],[76.18,-80.56],[76.45,-83.17],[76.3,-86.11],[76.42,-87.6],[76.47,-89.49],[76.95,-89.62],[77.18,-87.77],[77.9,-88.26],[77.97,-87.65],[77.54,-84.98],[78.18,-86.34],[78.37,-87.96],[78.76,-87.15],[79,-85.38],[79.35,-85.1],[79.74,-86.51],[80.25,-86.93],[80.21,-84.2],[80.1,-83.41],[80.46,-81.85],[80.58,-84.1],[80.52,-87.6],[80.86,-89.37],[81.26,-90.2],[81.55,-91.37],[81.9,-91.59],[82.08,-90.1],[82.12,-88.93],[82.28,-86.97],[82.65,-85.5],[82.6,-84.26],[82.32,-83.18],[82.86,-82.42],[83.02,-81.1],[83.13,-79.31],[83.17,-76.25],[83.06,-75.72],[83.23,-72.83],[83.17,-70.67],[83.11,-68.5]],[[83.52,-27.1],[82.73,-20.85],[82.34,-22.69],[82.3,-26.52],[82.2,-31.9],[82.02,-31.4],[82.13,-27.86],[81.79,-24.85],[82.09,-22.9],[81.73,-22.07],[81.15,-23.17],[81.52,-20.62],[81.91,-15.77],[81.72,-12.77],[81.29,-12.21],[80.58,-16.28],[80.35,-16.85],[80.18,-20.05],[80.13,-17.73],[79.4,-18.9],[78.75,-19.7],[77.64,-19.67],[76.98,-18.47],[76.94,-20.04],[76.63,-21.68],[76.1,-19.83],[75.25,-19.6],[75.16,-20.67],[74.3,-19.37],[74.22,-21.59],[73.82,-20.44],[73.46,-20.76],[73.31,-22.17],[73.31,-23.57],[72.63,-22.31],[72.18,-22.3],[72.6,-24.28],[72.33,-24.79],[72.08,-23.44],[71.47,-22.13],[70.66,-21.75],[70.47,-23.54],[70.86,-24.31],[71.43,-25.54],[70.75,-25.2],[70.23,-26.36],[70.18,-23.73],[70.13,-22.35],[69.26,-25.03],[68.47,-27.75],[68.12,-30.67],[68.12,-31.78],[67.74,-32.81],[66.68,-34.2],[65.98,-36.35],[65.94,-37.04],[65.69,-38.37],[65.46,-39.81],[64.84,-40.67],[64.14,-40.68],[63.48,-41.19],[62.68,-42.82],[61.9,-42.42],[61.07,-42.87],[60.1,-43.38],[60.04,-44.79],[60.85,-46.26],[60.86,-48.26],[61.41,-49.23],[62.38,-49.9],[63.63,-51.63],[64.28,-52.14],[65.18,-52.28],[66.1,-53.66],[66.84,-53.3],[67.19,-53.97],[68.36,-52.98],[68.73,-51.48],[69.15,-51.08],[69.93,-50.87],[69.57,-52.02],[69.43,-52.56],[69.28,-53.46],[69.61,-54.68],[70.29,-54.75],[70.82,-54.36],[70.84,-53.43],[70.57,-51.39],[71.2,-53.11],[71.55,-54.01],[71.41,-55],[71.66,-55.83],[72.59,-54.72],[72.96,-55.33],[73.65,-56.12],[74.71,-57.33],[75.1,-58.6],[75.52,-58.59],[76.1,-61.27],[76.18,-63.39],[76.14,-66.07],[76.06,-68.5],[76.38,-69.67],[77.01,-71.4],[77.32,-68.78],[77.38,-66.76],[77.64,-71.04],[78.04,-73.3],[78.43,-73.16],[78.91,-69.37],[79.4,-65.71],[79.76,-65.32],[80.12,-68.02],[80.52,-67.15],[81.21,-63.69],[81.32,-62.24],[81.77,-62.65],[82.03,-60.28],[82.19,-57.21],[82.2,-54.14],[81.89,-53.04],[82.44,-50.39],[82.06,-48],[81.99,-46.6],[81.66,-44.52],[82.2,-46.9],[82.63,-46.76],[83.23,-43.41],[83.18,-39.9],[83.55,-38.62],[83.65,-35.09],[83.52,-27.1]]];
+    // ── static latitude rings ──
+    [-60, -30, 0, 30, 60].forEach(lat => {
+      const latR = lat * Math.PI / 180;
+      const r = R * Math.cos(latR);
+      const y = cy - R * Math.sin(latR);
+      const ell = document.createElementNS(NS, 'ellipse');
+      ell.setAttribute('cx', cx);
+      ell.setAttribute('cy', y);
+      ell.setAttribute('rx', r);
+      ell.setAttribute('ry', Math.max(2, r * 0.05));
+      ell.setAttribute('class', lat === 0 ? 'graticule equator' : 'graticule');
+      graticuleGroup.appendChild(ell);
+    });
+
+    const meridianLons = [-150,-120,-90,-60,-30,0,30,60,90,120,150,180];
+    const meridianPaths = meridianLons.map(() => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'graticule');
+      graticuleGroup.appendChild(p);
+      return p;
+    });
+
+    const continentPaths = LAND_POLYS.map(() => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'continent');
+      continentGroup.appendChild(p);
+      return p;
+    });
+
+    const cityNodes = cities.map(() => {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('class', 'city-dot');
+      c.setAttribute('r', 4.5);
+      citiesGroup.appendChild(c);
+      return c;
+    });
+
+    const labelNodes = cities.map((c) => {
+      const t = document.createElementNS(NS, 'text');
+      t.setAttribute('class', 'city-label');
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = c.name;
+      labelsGroup.appendChild(t);
+      return t;
+    });
+
+    function project(lat, lon, lon0) {
+      const latR = lat * Math.PI / 180;
+      const lonR = (lon - lon0) * Math.PI / 180;
+      const x = cx + R * Math.cos(latR) * Math.sin(lonR);
+      const y = cy - R * Math.sin(latR);
+      const z = Math.cos(latR) * Math.cos(lonR);
+      return { x, y, z, front: z >= 0 };
+    }
+
+    function meridianPath(lon, lon0) {
+      const pts = [];
+      for (let lat = -90; lat <= 90; lat += 4) {
+        const p = project(lat, lon, lon0);
+        if (p.front) pts.push([p.x, p.y]);
+      }
+      if (pts.length < 2) return '';
+      return 'M' + pts.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' L');
+    }
+
+    // Continent path: break ring into front-facing sub-paths so back stays hidden
+    function continentPath(poly, lon0) {
+      let d = '';
+      let drawing = false;
+      for (let i = 0; i < poly.length; i++) {
+        const v = poly[i];
+        const p = project(v[0], v[1], lon0);
+        if (p.front) {
+          d += (drawing ? ' L' : ' M') + `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+          drawing = true;
+        } else {
+          drawing = false;
+        }
+      }
+      return d;
+    }
+
+    let lon0 = 40;
+    let autoSpin = true;
+    let target = null;
+    let pinnedIndex = -1;      // city whose label is pinned by a click
+    let resumeTimer = null;
+
+    function render() {
+      meridianLons.forEach((lon, i) => {
+        meridianPaths[i].setAttribute('d', meridianPath(lon, lon0));
+      });
+      LAND_POLYS.forEach((poly, i) => {
+        continentPaths[i].setAttribute('d', continentPath(poly, lon0));
+      });
+
+      // First pass: project all cities and find the single most front-facing one
+      let frontmost = -1, frontmostZ = -1;
+      const proj = cities.map((c) => project(c.lat, c.lon, lon0));
+      proj.forEach((p, i) => {
+        if (p.z > frontmostZ) { frontmostZ = p.z; frontmost = i; }
+      });
+
+      cities.forEach((c, i) => {
+        const p = proj[i];
+        cityNodes[i].setAttribute('cx', p.x.toFixed(1));
+        cityNodes[i].setAttribute('cy', p.y.toFixed(1));
+        cityNodes[i].setAttribute('opacity', (p.z > 0 ? 0.25 + 0.75 * p.z : 0).toFixed(2));
+
+        // position label above the dot
+        labelNodes[i].setAttribute('x', p.x.toFixed(1));
+        labelNodes[i].setAttribute('y', (p.y - 12).toFixed(1));
+
+        // Label visibility:
+        //  - when a city is pinned by click → only that one
+        //  - during auto-spin → only the single frontmost city (still well within the front face)
+        let shouldShow;
+        if (pinnedIndex >= 0) {
+          shouldShow = (pinnedIndex === i);
+        } else {
+          shouldShow = autoSpin && (i === frontmost) && (p.z > 0.5);
+        }
+        labelNodes[i].classList.toggle('show', shouldShow);
+      });
+    }
+
+    let last = null;
+    function frame(t) {
+      if (last === null) last = t;
+      const dt = Math.min(0.05, (t - last) / 1000);
+      last = t;
+
+      if (target !== null) {
+        let diff = target - lon0;
+        while (diff > 180) diff -= 360;
+        while (diff < -180) diff += 360;
+        if (Math.abs(diff) < 0.3) { lon0 = target; target = null; }
+        else { lon0 += diff * Math.min(1, dt * 3.5); }
+      } else if (autoSpin) {
+        lon0 = (lon0 + dt * 6) % 360;
+      }
+      if (lon0 < 0) lon0 += 360;
+
+      render();
+      requestAnimationFrame(frame);
+    }
+
+    const buttons = document.querySelectorAll('.global-city');
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        const lon = parseFloat(btn.dataset.lon);
+        target = lon;
+        autoSpin = false;
+        pinnedIndex = idx;
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        cityNodes.forEach((n, i) => n.classList.toggle('active-dot', i === idx));
+
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          autoSpin = true;
+          pinnedIndex = -1;
+          btn.classList.remove('active');
+          cityNodes.forEach(n => n.classList.remove('active-dot'));
+        }, 5000);
+      });
+    });
+
+    let running = false;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !running) {
+          running = true;
+          requestAnimationFrame(frame);
+        }
+      });
+    }, { threshold: 0.05 });
+    obs.observe(svg);
+  })();
+
+  // ─────────── CASE STUDY MODALS ───────────
+  (function setupCaseModals() {
+    const expandBtns = document.querySelectorAll('.case-expand-btn');
+    let lastTrigger = null;
+
+    function openModal(modal, trigger) {
+      if (!modal) return;
+      lastTrigger = trigger || null;
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      modal.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
+      modal.querySelectorAll('.reveal, .reveal-stagger').forEach(el => el.classList.add('in-view'));
+      const panel = modal.querySelector('.case-modal-panel');
+      if (panel) panel.scrollTop = 0;
+      modal.scrollTop = 0;
+    }
+
+    function closeModal(modal) {
+      if (!modal) return;
+      modal.classList.remove('open');
+      document.body.classList.remove('modal-open');
+      modal.querySelectorAll('video').forEach(v => v.pause());
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    expandBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const modal = document.getElementById(btn.dataset.modal);
+        openModal(modal, btn);
+      });
+    });
+
+    document.querySelectorAll('.case-modal-overlay').forEach(overlay => {
+      const closeBtn = overlay.querySelector('.case-modal-close');
+      if (closeBtn) closeBtn.addEventListener('click', () => closeModal(overlay));
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal(overlay);
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.case-modal-overlay.open').forEach(closeModal);
+      }
+    });
+  })();
+
+</script>
+
+</body>
+</html>
