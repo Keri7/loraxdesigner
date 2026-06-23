@@ -359,6 +359,24 @@
     .proof-marks { gap: 18px; }
     .modal-breakdown { gap: 28px; }
   }
+
+  /* ─────────────────────────────────────────────
+     NOTABLE PROJECTS
+  ───────────────────────────────────────────── */
+  .notable-section { padding: 72px 0 88px; background: var(--section-alt); border-top: 2px solid var(--ink); }
+  .notable-intro { max-width: 640px; margin-bottom: 48px; }
+  .notable-intro p { font-size: 16px; line-height: 1.65; color: var(--gray); margin-top: 12px; }
+  .notable-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .notable-item { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .notable-name { font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; }
+  .notable-co { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); white-space: nowrap; }
+  .notable-list .notable-item:nth-child(odd) { padding-right: 32px; border-right: 1px solid var(--line); }
+  .notable-list .notable-item:nth-child(even) { padding-left: 32px; }
+  @media (max-width: 700px) {
+    .notable-list { grid-template-columns: 1fr; }
+    .notable-list .notable-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .notable-list .notable-item:nth-child(even) { padding-left: 0; }
+  }
 </style>
 </head>
 <body>
@@ -693,6 +711,75 @@
 </div>
 
 
+
+<!-- ═══════════ NOTABLE PROJECTS ═══════════ -->
+<section class="notable-section">
+  <div class="container">
+    <div class="notable-intro reveal">
+      <span class="eyebrow">Also shipped</span>
+      <h2 class="section-title">Other <span class="red">notable projects.</span></h2>
+      <p>Fifteen years of enterprise, aviation, fintech, and platform work — a few projects that didn't make the case study cut but are worth knowing about.</p>
+    </div>
+    <div class="notable-list reveal-stagger">
+      <div class="notable-item">
+        <span class="notable-name">SSO + HR Portal for Airline</span>
+        <span class="notable-co">Air India · 22,500 employees</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Cabin Crew iOS App Suite</span>
+        <span class="notable-co">Air India</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Airline Loyalty Program Revamp</span>
+        <span class="notable-co">Air India</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Loyalty Program Partnerships Marketing</span>
+        <span class="notable-co">Air India</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">0→1 Seller Messaging Platform</span>
+        <span class="notable-co">Walmart · Marketplace</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Offer Listing Quality Dashboard</span>
+        <span class="notable-co">Walmart · eCommerce</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Marcus / Goldman Sachs Loan Program</span>
+        <span class="notable-co">Walmart · eCommerce</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Super App Shopping Experience</span>
+        <span class="notable-co">Tata Digital · TataNeu</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Retirement Calculator</span>
+        <span class="notable-co">Nationwide Insurance</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Financial Planning Dashboard</span>
+        <span class="notable-co">Vanguard</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Staff App Redesign</span>
+        <span class="notable-co">United Airlines</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">TCS.com Redesign</span>
+        <span class="notable-co">Tata Consultancy Services</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Design Mentorship Program</span>
+        <span class="notable-co">UX Wizards · 2026</span>
+      </div>
+      <div class="notable-item">
+        <span class="notable-name">Pilot Sector Report App</span>
+        <span class="notable-co">Air India · iPadOS</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════ SKILLS ═══════════ -->
 <section class="skills-section" id="skills">
