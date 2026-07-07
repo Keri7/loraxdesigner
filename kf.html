@@ -121,6 +121,10 @@
      HERO
   ───────────────────────────────────────────── */
   .hero { padding: 176px 0 0; }
+  .hero-inner { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: start; }
+  .hero-headshot { width: 160px; height: 160px; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  .hero-headshot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  @media (max-width: 700px) { .hero-inner { grid-template-columns: 1fr; } .hero-headshot { width: 80px; height: 80px; margin-top: 0; order: -1; } }
   .hero-eyebrow-row { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
 
   .hero-title { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 5.6vw, 78px); line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); max-width: 940px; }
@@ -196,13 +200,16 @@
   .case-list { border-top: 1px solid var(--line); }
 
   .case-row {
-    display: block;
-    width: calc(100% + 48px); margin: 0 -24px; padding: 34px 24px; border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: 120px 1fr; column-gap: 24px;
+    width: calc(100% + 48px); margin: 0 -24px; padding: 28px 24px; border-bottom: 1px solid var(--line);
     background: none; border-left: none; border-right: none; border-top: none;
     border-radius: var(--r-md);
     text-align: left; font: inherit; color: inherit; cursor: pointer;
     transition: background 0.3s ease, box-shadow 0.3s ease;
+    align-items: start;
   }
+  .case-row-thumb { width: 120px; height: 80px; border-radius: 8px; overflow: hidden; flex-shrink: 0; background: var(--panel); }
+  .case-row-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
   .case-row:hover, .case-row:focus-visible { background: var(--panel); box-shadow: var(--shadow-lift); border-bottom-color: transparent; }
   .case-row:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
@@ -218,7 +225,8 @@
   .case-row:hover .case-row-cta { gap: 12px; }
 
   @media (max-width: 700px) {
-    .case-row { padding: 26px 16px; width: calc(100% + 32px); margin: 0 -16px; }
+    .case-row { grid-template-columns: 88px 1fr; column-gap: 14px; padding: 20px 16px; width: calc(100% + 32px); margin: 0 -16px; }
+    .case-row-thumb { width: 88px; height: 60px; }
     .case-row-headline { font-size: 19px; }
     .case-row-foot { flex-wrap: wrap; }
   }
@@ -235,8 +243,14 @@
   /* Speaking drawer */
   .speaking-toggle { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--red); background: none; border: none; cursor: pointer; font-family: var(--body-font); padding: 0; letter-spacing: -0.01em; transition: gap 0.2s ease; }
   .speaking-toggle:hover { gap: 10px; }
-  .speaking-drawer { display: none; margin-top: 20px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .speaking-drawer { display: none; margin-top: 32px; border-top: 1px solid var(--line); padding-top: 24px; }
   .speaking-drawer.open { display: block; }
+  .speaking-rows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+  @media (max-width: 700px) { .speaking-rows-grid { grid-template-columns: 1fr; } }
+  .wm-spark { display: inline-block; width: 1em; height: 1em; vertical-align: middle; margin: 0 2px 0 3px; position: relative; top: -0.05em; }
+  .wm-spark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .ai-logo { display: inline-block; width: 1em; height: 1em; vertical-align: middle; margin: 0 2px 0 3px; position: relative; top: -0.05em; border-radius: 2px; overflow: hidden; }
+  .ai-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .speaking-row { display: flex; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
   .speaking-row:last-child { border-bottom: none; }
   .speaking-date { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; min-width: 72px; flex-shrink: 0; padding-top: 1px; }
@@ -500,16 +514,23 @@
 <!-- ═══════════ HERO ═══════════ -->
 <header class="hero">
   <div class="container">
-    <div class="hero-eyebrow-row">
-      <span class="eyebrow">Product Designer · Design Leader</span>
-    </div>
-    <h1 class="hero-title">Fifteen years shipping mission-critical products for <span class="red">aviation, ecommerce, and enterprise.</span></h1>
-    <p class="hero-sub">
-      Hybrid design manager who never stopped being a hands-on designer. Across <strong>Walmart</strong>, <strong>Air India</strong>, and various leadership roles at <strong>Tata companies</strong>, I've shipped the work and scaled the teams behind it. Currently exploring senior design and design leadership opportunities.
-    </p>
-    <div class="hero-ctas">
-      <a href="mailto:uxkeri@gmail.com" class="btn btn-primary">Email Me →</a>
-      <a href="https://www.linkedin.com/in/kerif" target="_blank" rel="noopener" class="btn btn-secondary">View LinkedIn</a>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow-row">
+          <span class="eyebrow">Product Designer · Design Leader</span>
+        </div>
+        <h1 class="hero-title">Fifteen years shipping mission-critical products for <span class="red">aviation, ecommerce, and enterprise.</span></h1>
+        <p class="hero-sub">
+          Hybrid design manager who never stopped being a hands-on designer. Across <strong>Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span></strong>, <strong>Air India</strong>, and various leadership roles at <strong>Tata companies</strong>, I've shipped the work and scaled the teams behind it. Currently exploring senior design and design leadership opportunities.
+        </p>
+        <div class="hero-ctas">
+          <a href="mailto:uxkeri@gmail.com" class="btn btn-primary">Email Me →</a>
+          <a href="https://www.linkedin.com/in/kerif" target="_blank" rel="noopener" class="btn btn-secondary">View LinkedIn</a>
+        </div>
+      </div>
+      <div class="hero-headshot">
+        <img src="images/keri-headshot.png" alt="Keri Fullwood">
+      </div>
     </div>
 
     <div class="hero-readout reveal-stagger">
@@ -574,10 +595,10 @@
         <div>
           <div class="tl-role">Design Leadership @ Tata Group Companies</div>
           <div class="tl-org">Tata Group · SF Bay Area</div>
-          <div class="tl-desc">Three senior design roles across a highly publicized tech transformation.
+          <div class="tl-desc">
             <ul>
-              <li><strong>Tata Elxsi:</strong> UX strategy for global clients across automotive, media, and healthcare.</li>
-              <li><strong>Head of Design, Air India US:</strong> Built the Silicon Valley design studio and shipped a 0→1 software suite of internal tools.</li>
+              <li><strong>Tata Elxsi:</strong> Concept design work for Warner Bros. (2025), plus UX strategy across automotive, communications and healthcare clients.</li>
+              <li><strong>Head of Design, Air IndiaUS:</strong> Built the Silicon Valley design studio and shipped a 0→1 software suite of internal tools for India's national flag carrier airline.</li>
               <li><strong>Head of User Experience, Tata Digital US:</strong> Led design for TataNeu's super-app across 13 languages and 20+ brands.</li>
             </ul>
           </div>
@@ -587,9 +608,9 @@
         <div class="tl-year">2019—2021</div>
         <div class="tl-marker"><span class="tl-dot"></span></div>
         <div>
-          <div class="tl-role">Senior UX/UI Lead · Head of Design, Marketplace</div>
-          <div class="tl-org">Walmart · Marketplace, Design Systems, Merch Tech</div>
-          <div class="tl-desc">Three roles in two years: features for Walmart's Marketplace product, and design system work across Walmart's overall org.</div>
+          <div class="tl-role">Head of Design, Walmart Marketplace</div>
+          <div class="tl-org">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· Marketplace, Design Systems, Merch Tech</div>
+          <div class="tl-desc">Three roles in two years: features for Walmart's Marketplace product, design system work across Walmart's overall org, and internal tools for the merchandising org.</div>
         </div>
       </div>
       <div class="tl-row">
@@ -598,7 +619,7 @@
         <div>
           <div class="tl-role">Senior UX Designer → UX Design Director</div>
           <div class="tl-org">Tata Consultancy Services · Santa Clara</div>
-          <div class="tl-desc">Product design and design consulting for Fortune 500s — including Marathon City (Red Dot 2019), AGL, Woodside, Cisco, and United.</div>
+          <div class="tl-desc">Product design and design consulting for Fortune 500s — including Marathon City (Red Dot 2019), AGL, Woodside, Cisco, and United Airlines.</div>
         </div>
       </div>
       <div class="tl-row">
@@ -607,7 +628,7 @@
         <div>
           <div class="tl-role">User Experience Designer</div>
           <div class="tl-org">UK &amp; US · Hollinger Scott · IC-CAVE · Digital Imagination</div>
-          <div class="tl-desc">Retail interfaces, web and brand work in Dundee, and a games and e-learning research center.</div>
+          <div class="tl-desc">Retail interfaces, web and brand work in Dundee, and a games research center.</div>
         </div>
       </div>
     </div>
@@ -624,8 +645,9 @@
 
     <div class="case-list reveal-stagger">
       <button type="button" class="case-row" data-modal="modal-pilot" aria-haspopup="dialog">
+        <div class="case-row-thumb"><img src="images/pilot-sector-poster.jpg" alt=""></div>
         <div>
-          <div class="case-row-tag">Air India · 2024</div>
+          <div class="case-row-tag">Air India · 2025</div>
           <h3 class="case-row-headline">Pilot App, a 0 to 1 project: from 15 minutes on paper to 2:30 on iPad.</h3>
           <p class="case-row-summary">A native iPadOS app that replaced paper flight reports pilots filed by hand, then waited days to see processed.</p>
           <div class="case-row-foot">
@@ -636,10 +658,11 @@
       </button>
 
       <button type="button" class="case-row" data-modal="modal-walmart" aria-haspopup="dialog">
+        <div class="case-row-thumb"><img src="images/walmart-checkout-poster.jpg" alt=""></div>
         <div>
-          <div class="case-row-tag">Walmart · 2019–2021</div>
-          <h3 class="case-row-headline">Design system for Walmart.</h3>
-          <p class="case-row-summary">Migrated Walmart's Living Design System to Figma, then built the dashboard on top that drove the impact below.</p>
+          <div class="case-row-tag">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· 2019–2021</div>
+          <h3 class="case-row-headline">Design system for Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>.</h3>
+          <p class="case-row-summary">Migrated Walmart's Living Design System to Figma, and designed a 0 to 1 dashboard that brought in +$24M GMV in 3 months.</p>
           <div class="case-row-foot">
             <span class="case-row-stat">+$24M GMV</span>
             <span class="case-row-cta">Read the case study <span>→</span></span>
@@ -648,12 +671,15 @@
       </button>
 
       <button type="button" class="case-row" data-modal="modal-element" aria-haspopup="dialog">
+        <div class="case-row-thumb" style="background: linear-gradient(135deg, #1a2744 0%, #2d4a8a 100%); display:flex; align-items:center; justify-content:center;">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="28" height="4" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="6" y="16" width="20" height="4" rx="2" fill="rgba(255,255,255,0.5)"/><rect x="6" y="24" width="24" height="4" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="6" y="32" width="16" height="4" rx="2" fill="rgba(255,255,255,0.2)"/></svg>
+        </div>
         <div>
           <div class="case-row-tag">Element Corp × TCS</div>
           <h3 class="case-row-headline">Fleet Management Dashboard Design for Element Corp.</h3>
           <p class="case-row-summary">Axure-prototyped fleet portal linking drivers to trucks: licenses, plates, and assignments visible to operators and the operations center.</p>
           <div class="case-row-foot">
-            <span class="case-row-stat">Drivers ↔ Trucks</span>
+            <span class="case-row-stat">$3M / yr projected saving</span>
             <span class="case-row-cta">Read the case study <span>→</span></span>
           </div>
         </div>
@@ -662,9 +688,9 @@
     <div class="more-projects reveal">
       <button type="button" class="show-more-btn" id="showMoreProjects" aria-expanded="false" aria-controls="miniGrid">+ 18 more projects</button>
       <div class="mini-grid" id="miniGrid">
-        <button type="button" class="mini-card mini-card-link" data-modal="modal-volunteers" aria-haspopup="dialog"><div class="mini-name">Volunteer Sign-Up Page for Community Meetup <span class="mini-arrow">→</span></div><div class="mini-org">UX Wizards · 2025</div></button>
+        <button type="button" class="mini-card mini-card-link" data-modal="modal-</div></button>
         <a href="https://www.opensauce.com/exhibits/now-you-see-it-zoetrope-and-split-flap-display" target="_blank" rel="noopener" class="mini-card mini-card-link"><div class="mini-name">Exhibiting at Open Sauce <svg class="launch-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mini-org">July 2026</div></a>
-        <button type="button" class="mini-card mini-card-link" data-modal="modal-byt" aria-haspopup="dialog"><div class="mini-name">Bring Your Thing: Design Review Workshop <span class="mini-arrow">→</span></div><div class="mini-org">UX Wizards · 2025</div></button>
+        <button type="button" class="mini-card mini-card-link" data-modal="modal-byt" aria-haspopup="dialog"><div class="mini-name">Bring Your Thing: Design Review Workshop <span class="mini-arrow">→</span></div><div class="mini-org">UX Wizards · 2026</div></button>
         <button type="button" class="mini-card mini-card-link" data-modal="modal-mentors" aria-haspopup="dialog"><div class="mini-name">Paid Mentorship Program <span class="mini-arrow">→</span></div><div class="mini-org">UX Wizards · 2026</div></button>
         <button type="button" class="mini-card mini-card-link" data-modal="modal-benefits" aria-haspopup="dialog"><div class="mini-name">HR &amp; Benefits Portal, 0→1 <span class="mini-arrow">→</span></div><div class="mini-org">Air India · 22,100+ employees</div></button>
         <div class="mini-card"><div class="mini-name">Cabin Crew iOS App Suite</div><div class="mini-org">Air India</div></div>
@@ -673,9 +699,9 @@
         <div class="mini-card"><div class="mini-name">Loyalty Program Partnerships Marketing</div><div class="mini-org">Air India</div></div>
         <div class="mini-card"><div class="mini-name">Built Silicon Valley Design Team from Scratch</div><div class="mini-org">Air India &amp; Tata Digital</div></div>
         <div class="mini-card"><div class="mini-name">Super App Shopping Experience</div><div class="mini-org">Tata Digital · TataNeu</div></div>
-        <div class="mini-card"><div class="mini-name">0→1 Seller Messaging Platform</div><div class="mini-org">Walmart · Marketplace</div></div>
-        <a href="https://marketplace.walmart.com/listing-quality/" target="_blank" rel="noopener" class="mini-card mini-card-link"><div class="mini-name">Offer Listing Quality Dashboard <svg class="launch-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mini-org">Walmart · eCommerce</div></a>
-        <div class="mini-card"><div class="mini-name">Marcus / Goldman Sachs Loan Program</div><div class="mini-org">Walmart · eCommerce</div></div>
+        <div class="mini-card"><div class="mini-name">0→1 Seller Messaging Platform</div><div class="mini-org">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· Marketplace</div></div>
+        <a href="https://marketplace.walmart.com/listing-quality/" target="_blank" rel="noopener" class="mini-card mini-card-link"><div class="mini-name">Offer Listing Quality Dashboard <svg class="launch-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mini-org">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· eCommerce</div></a>
+        <div class="mini-card"><div class="mini-name">Marcus / Goldman Sachs Loan Program</div><div class="mini-org">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· eCommerce</div></div>
         <button type="button" class="mini-card mini-card-link" data-modal="modal-marathon" aria-haspopup="dialog"><div class="mini-name">A Racing Game Built for Every Body <span class="mini-arrow">→</span></div><div class="mini-org">NYC Marathon × TCS · Red Dot 2019</div></button>
         <button type="button" class="mini-card mini-card-link" data-modal="modal-agl" aria-haspopup="dialog"><div class="mini-name">New Connections Platform, 57 → 14 Day Installs <span class="mini-arrow">→</span></div><div class="mini-org">AGL × TCS · Melbourne</div></button>
         <div class="mini-card"><div class="mini-name">Financial Planning Dashboard</div><div class="mini-org">Vanguard</div></div>
@@ -690,9 +716,9 @@
 <div class="case-modal-overlay" id="modal-walmart" role="dialog" aria-modal="true" aria-labelledby="modal-walmart-title">
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
-    <div class="modal-tag">Walmart · Senior UX/UI Lead · 2019–2021</div>
-    <h3 class="modal-headline" id="modal-walmart-title">Design system for Walmart.</h3>
-    <p class="modal-summary">Walmart's Living Design System needed to move from Sketch to Figma and actually get adopted by the designers and engineers shipping on it. I owned the migration, kept the shared component library accurate, and built the dashboard that put the system's value in dollar terms.</p>
+    <div class="modal-tag">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· Senior UX/UI Lead · 2019–2021</div>
+    <h3 class="modal-headline" id="modal-walmart-title">Design system for Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>.</h3>
+    <p class="modal-summary">Walmart's Living Design System needed to move from Sketch to Figma and actually get adopted by the designers and engineers shipping on it. I owned the migration, kept the shared component library accurate, and designed a 0 to 1 dashboard that brought in +$24M GMV in 3 months.</p>
 
     <div class="modal-stats">
       <div class="modal-stat-cell"><div class="modal-stat-num">+$24M</div><div class="modal-stat-label">GMV uplift in 3 months</div></div>
@@ -723,7 +749,7 @@
     <div class="modal-video">
       <video src="images/walmart-checkout.mp4" poster="images/walmart-checkout-poster.jpg" muted loop playsinline preload="metadata" aria-label="A customer at a Walmart self-checkout kiosk completing a purchase using the Living Design System"></video>
     </div>
-    <div class="fig-caption"><span class="fig-num">Fig. 02</span> — The "Duplo" button, spec'd in Figma, now in real Walmart stores.</div>
+    <div class="fig-caption"><span class="fig-num">Fig. 02</span> — The "Duplo" button, spec'd in Figma, now in real Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>stores.</div>
 
     <div class="skill-tags">
       <span class="skill-tag">Stakeholder Alignment</span>
@@ -738,7 +764,7 @@
 <div class="case-modal-overlay" id="modal-pilot" role="dialog" aria-modal="true" aria-labelledby="modal-pilot-title">
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
-    <div class="modal-tag">Air India · Pilot Sector Report · Design Lead · 2024</div>
+    <div class="modal-tag">Air India · Pilot Sector Report · Design Lead · 2025</div>
     <h3 class="modal-headline" id="modal-pilot-title">Pilot App, a 0 to 1 project: from 15 minutes on paper to 2:30 on iPad.</h3>
     <p class="modal-summary">Air India pilots filed flight, incident, and sector reports on paper: 10–15 minutes a shift, then 3–4 days before the data was re-keyed by hand. I designed the native iPadOS app that replaced it.</p>
 
@@ -1001,7 +1027,7 @@
 <div class="case-modal-overlay" id="modal-benefits" role="dialog" aria-modal="true" aria-labelledby="modal-benefits-title">
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
-    <div class="modal-tag">Air India · HR Benefits Portal · UX/UI Designer · 2022–2023</div>
+    <div class="modal-tag">Air India· HR Benefits Portal · UX/UI Designer · 2022–2023</div>
     <h3 class="modal-headline" id="modal-benefits-title">0→1 internal portal unifying 156 tools for 22,000+ employees.</h3>
     <p class="modal-summary">Air India needed a custom internal portal for employee benefits and SSO — single sign-on access to 19 internal tools across every persona, from pilots to ground crew to management. Four weeks to MVP, five designers, fifteen-plus developers.</p>
 
@@ -1102,7 +1128,7 @@
 <div class="case-modal-overlay" id="modal-volunteers" role="dialog" aria-modal="true" aria-labelledby="modal-volunteers-title">
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
-    <div class="modal-tag">UX Wizards · Design &amp; Build · 2025</div>
+    <div class="modal-tag">UX Wizards · Design &amp; Build · 2026</div>
     <h3 class="modal-headline" id="modal-volunteers-title">Volunteer sign-up page for a design community meetup.</h3>
     <p class="modal-summary">Built with AI to solve a real coordination problem: getting the right volunteers into the right roles for UX Wizards events, without a spreadsheet and a hundred Slack messages.</p>
 
@@ -1194,20 +1220,39 @@
 
 <!-- ═══════════ BEYOND THE WORK ═══════════ -->
 <section class="beyond-section">
-  <div class="container beyond-grid reveal">
-    <div class="beyond-copy">
-      <img src="images/uxwizards-logo.png" alt="UX Wizards" class="uxw-logo">
-      <span class="eyebrow">Also</span>
-      <h2 class="section-title" style="margin-bottom:18px;">Beyond <span class="red">the day job.</span></h2>
-      <p>I founded and still lead UX Wizards, eight years in: 7,800 designers, 700+ events, and a podcast four seasons in, produced with a team of 5 producers I lead. I speak regularly (Cal Poly UXFest, Huddle) and also launched a mentorship platform this year.</p>
-      <div class="beyond-links-stack">
-        <a href="https://uxwizards.webflow.io" target="_blank" rel="noopener" class="beyond-link">See the full story at uxwizards.webflow.io <svg class="launch-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <div class="container reveal">
+    <div class="beyond-grid">
+      <div class="beyond-copy">
+        <img src="images/uxwizards-logo.png" alt="UX Wizards" class="uxw-logo">
+        <span class="eyebrow">Also</span>
+        <h2 class="section-title" style="margin-bottom:18px;">Beyond <span class="red">the day job.</span></h2>
+        <p>I founded and still lead UX Wizards, eight years in: 7,800 designers, 700+ events, and the <a href="https://uxwizards.webflow.io" target="_blank" rel="noopener" style="color:var(--red);font-weight:600;text-decoration:none;">UX Wizards podcast</a> four seasons in, produced with a team of 5 producers. I speak regularly (Cal Poly UXFest, Huddle) and also launched a mentorship platform this year.</p>
+        <div class="beyond-links-stack">
+          <a href="https://uxwizards.webflow.io" target="_blank" rel="noopener" class="beyond-link">See the full story at uxwizards.webflow.io <svg class="launch-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M9 2h5m0 0v5m0-5L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="beyond-stats">
+          <div class="beyond-stat-cell"><span class="beyond-stat-label">Community Members</span><span class="beyond-stat-num">7,800+</span></div>
+          <div class="beyond-stat-cell"><span class="beyond-stat-label">Events Hosted</span><span class="beyond-stat-num">700+</span></div>
+          <div class="beyond-stat-cell"><span class="beyond-stat-label">Podcast Episodes</span><span class="beyond-stat-num">24</span></div>
+        </div>
         <button type="button" class="speaking-toggle" id="speakingToggle" aria-expanded="false" aria-controls="speakingDrawer">Speaking &amp; workshops ↓</button>
       </div>
-      <div class="speaking-drawer" id="speakingDrawer" aria-hidden="true">
-        <div class="beyond-photo" style="margin-bottom:16px;">
-          <img src="images/cal-poly-panel.jpg" alt="Keri on a panel at Cal Poly SLO UXFest — 'How is AI changing your workflow?'" loading="lazy">
+
+      <div class="beyond-right">
+        <div class="beyond-photo">
+          <img src="images/sailing-volunteer.jpg" alt="Keri volunteering aboard the Team O'Neill catamaran in Santa Cruz" loading="lazy">
         </div>
+        <div class="beyond-meta">
+          <strong>Team O'Neill volunteer</strong> — part of the O'Neill Sea Odyssey Program, taking elementary kids out on the ocean for hands-on marine science education.
+        </div>
+      </div>
+    </div>
+
+    <div class="speaking-drawer" id="speakingDrawer" aria-hidden="true">
+      <div class="beyond-photo" style="margin-bottom:20px; max-height:320px; overflow:hidden;">
+        <img src="images/cal-poly-panel.jpg" alt="Keri on a panel at Cal Poly SLO UXFest — 'How is AI changing your workflow?'" loading="lazy" style="height:320px; object-fit:cover; object-position:center 20%;">
+      </div>
+      <div class="speaking-rows-grid">
         <div class="speaking-row">
           <span class="speaking-date">May 2026</span>
           <div><div class="speaking-title">"Design &amp; AI" at Huddle</div><div class="speaking-sub">Created the event, invited speakers, hosted, and spoke about using AI in my projects.</div></div>
@@ -1239,21 +1284,6 @@
           <span class="speaking-badge">Speaker</span>
         </div>
       </div>
-
-      <div class="beyond-stats">
-        <div class="beyond-stat-cell"><span class="beyond-stat-label">Community Members</span><span class="beyond-stat-num">7,800+</span></div>
-        <div class="beyond-stat-cell"><span class="beyond-stat-label">Events Hosted</span><span class="beyond-stat-num">700+</span></div>
-        <div class="beyond-stat-cell"><span class="beyond-stat-label">Podcast Episodes</span><span class="beyond-stat-num">24</span></div>
-      </div>
-    </div>
-
-    <div class="beyond-right">
-      <div class="beyond-photo">
-        <img src="images/sailing-volunteer.jpg" alt="Keri volunteering aboard the Team O'Neill catamaran in Santa Cruz" loading="lazy">
-      </div>
-      <div class="beyond-meta">
-        <strong>Team O'Neill volunteer</strong> — Born in LA, I live in the heart of Silicon Valley. I volunteer on the "Team O'Neill" catamaran in Santa Cruz, as part of the O'Neill Sea Odyssey Program, taking elementary kids out on the ocean for hands-on marine science education.
-      </div>
     </div>
   </div>
 </section>
@@ -1264,7 +1294,7 @@
     <span class="eyebrow">Let's talk</span>
     <h2 class="contact-title">Let's build <span class="red word-flip-wrap"><span class="word-flip-track" id="wordFlipTrack"><span class="word-flip-item">something.</span><span class="word-flip-item">something bold.</span><span class="word-flip-item">something real.</span><span class="word-flip-item">something useful.</span><span class="word-flip-item">something lasting.</span><span class="word-flip-item">products for businesses.</span><span class="word-flip-item">something.</span></span></span></h2>
     <p class="contact-pitch">
-      I'm currently exploring senior design and design leadership roles: hands-on product design, scaling teams and culture, and designing and building products for businesses. Excited to hear about your project.
+      Open to senior design and leadership roles, would love to discuss your project or learn more about what you're working on.
     </p>
 
     <div class="contact-row">
@@ -1428,16 +1458,21 @@
     const items = track.querySelectorAll('.word-flip-item');
     const count = items.length - 1;
     let idx = 0;
+    let started = false;
+
     function init() {
-      const itemH = items[0].getBoundingClientRect().height;
+      const itemH = items[0].offsetHeight || items[0].getBoundingClientRect().height;
       let maxW = 0;
-      items.forEach(el => { maxW = Math.max(maxW, el.getBoundingClientRect().width); });
+      items.forEach(el => { maxW = Math.max(maxW, el.offsetWidth || el.getBoundingClientRect().width); });
+      if (!itemH || !maxW) return false;
       wrap.style.height = itemH + 'px';
       wrap.style.width  = maxW + 'px';
+      return true;
     }
+
     function advance() {
       idx++;
-      const itemH = items[0].getBoundingClientRect().height;
+      const itemH = items[0].offsetHeight || items[0].getBoundingClientRect().height;
       track.style.transition = 'transform 0.6s cubic-bezier(0.76, 0, 0.24, 1)';
       track.style.transform  = `translateY(${-idx * itemH}px)`;
       if (idx >= count) {
@@ -1449,11 +1484,22 @@
         });
       }
     }
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => { init(); setInterval(advance, 2600); });
-    } else {
-      window.addEventListener('load', () => { init(); setInterval(advance, 2600); });
+
+    function start() {
+      if (started) return;
+      if (init()) { started = true; setInterval(advance, 2600); }
     }
+
+    // Try on load, then watch for when section scrolls into view
+    window.addEventListener('load', () => {
+      start();
+      if (!started) {
+        const obs = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) { start(); if (started) obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(wrap);
+      }
+    });
   })();
 </script>
 
