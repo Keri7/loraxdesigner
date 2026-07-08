@@ -241,10 +241,14 @@
   .launch-icon { display: inline-block; width: 13px; height: 13px; vertical-align: middle; margin-left: 4px; opacity: 0.55; flex-shrink: 0; }
   a[target="_blank"] .launch-icon, .modal-link-row .launch-icon { opacity: 0.7; }
   /* Speaking drawer */
-  .speaking-toggle { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 14px; font-weight: 600; color: var(--red); background: none; border: none; cursor: pointer; font-family: var(--body-font); padding: 0; letter-spacing: -0.01em; transition: gap 0.2s ease; }
-  .speaking-toggle:hover { gap: 10px; }
+  .speaking-toggle { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 980px; cursor: pointer; font-family: var(--body-font); padding: 9px 18px; letter-spacing: -0.01em; transition: background 0.2s ease, border-color 0.2s ease; }
+  .speaking-toggle:hover { border-color: var(--red); color: var(--red); }
   .speaking-drawer { display: none; margin-top: 32px; border-top: 1px solid var(--line); padding-top: 24px; }
   .speaking-drawer.open { display: block; }
+  .speaking-photo-wrap { margin-bottom: 24px; }
+  .speaking-photo-wrap img { width: auto; max-width: 100%; max-height: 260px; border-radius: var(--r-md); display: block; object-fit: cover; }
+  .speaking-hide-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 13px; font-weight: 600; color: var(--ink-soft); background: none; border: none; cursor: pointer; font-family: var(--body-font); padding: 0; letter-spacing: -0.01em; }
+  .speaking-hide-btn:hover { color: var(--red); }
   .speaking-rows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
   @media (max-width: 700px) { .speaking-rows-grid { grid-template-columns: 1fr; } }
   .wm-spark { display: inline-block; width: 1em; height: 1em; vertical-align: middle; margin: 0 2px 0 3px; position: relative; top: -0.05em; }
@@ -273,6 +277,11 @@
   .case-modal-close:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 
   .modal-tag { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); font-weight: 700; margin-bottom: 16px; }
+  .modal-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .modal-logo-img { height: 28px; width: auto; max-width: 120px; object-fit: contain; display: block; }
+  .modal-logo-img.rounded { border-radius: 6px; }
+  .modal-logo-divider { width: 1px; height: 20px; background: var(--line); flex-shrink: 0; }
+  .modal-logo-img.sm { height: 20px; }
   .modal-headline { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 3.5vw, 42px); letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 18px; color: var(--ink); }
   .modal-summary { font-size: 17.5px; line-height: 1.6; color: var(--ink-soft); max-width: 740px; letter-spacing: -0.01em; }
 
@@ -490,6 +499,10 @@
     .modal-breakdown { gap: 28px; }
   }
 </style>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 </head>
 <body>
 
@@ -558,7 +571,6 @@
       <div class="proof-row">
         <span class="proof-mark lg"><img src="images/logos/tata.svg" alt="Tata Group" loading="lazy"></span>
         <span class="proof-mark lg"><img src="images/logos/tataneu.png" alt="Tata Neu" loading="lazy"></span>
-        <span class="proof-mark lg"><img src="images/logos/vistara.png" alt="Vistara" loading="lazy"></span>
         <span class="proof-mark lg"><img src="images/logos/agl.png" alt="AGL" loading="lazy"></span>
         <span class="proof-mark md"><img src="images/logos/cisco.png" alt="Cisco" loading="lazy"></span>
         <span class="proof-mark md"><img src="images/logos/bpost.png" alt="bpost" loading="lazy"></span>
@@ -717,6 +729,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>· Senior UX/UI Lead · 2019–2021</div>
+    <div class="modal-logo-row"><img src="images/logos/walmart.png" alt="Walmart" class="modal-logo-img"></div>
     <h3 class="modal-headline" id="modal-walmart-title">Design system for Walmart<span class="wm-spark"><img src="images/walmart-spark.webp" alt=""></span>.</h3>
     <p class="modal-summary">Walmart's Living Design System needed to move from Sketch to Figma and actually get adopted by the designers and engineers shipping on it. I owned the migration, kept the shared component library accurate, and designed a 0 to 1 dashboard that brought in +$24M GMV in 3 months.</p>
 
@@ -765,6 +778,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">Air India · Pilot Sector Report · Design Lead · 2025</div>
+    <div class="modal-logo-row"><img src="images/logos/airindia.png" alt="Air India" class="modal-logo-img rounded"></div>
     <h3 class="modal-headline" id="modal-pilot-title">Pilot App, a 0 to 1 project: from 15 minutes on paper to 2:30 on iPad.</h3>
     <p class="modal-summary">Air India pilots filed flight, incident, and sector reports on paper: 10–15 minutes a shift, then 3–4 days before the data was re-keyed by hand. I designed the native iPadOS app that replaced it.</p>
 
@@ -825,6 +839,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">NYC Marathon × TCS Interactive · Concept &amp; Game Mechanics Lead · 2019</div>
+    <div class="modal-logo-row"><img src="images/logos/tcs.png" alt="TCS" class="modal-logo-img"></div>
     <h3 class="modal-headline" id="modal-marathon-title">A racing game built for every body.</h3>
     <p class="modal-summary">A wheelchair-accessible racing game for the NYC Marathon expo, built with New York Road Runners. Tens of thousands played: kids, grandparents, and wheelchair athletes, all on the same starting line.</p>
 
@@ -891,6 +906,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">UX Wizards · Design &amp; Product Lead · 2026</div>
+    <div class="modal-logo-row"><img src="images/uxwizards-logo.png" alt="UX Wizards" class="modal-logo-img rounded"></div>
     <h3 class="modal-headline" id="modal-mentors-title">Paid Mentorship Program for a design community.</h3>
     <p class="modal-summary">UX Wizards had been pairing designers informally for years through community events: real connections, but nothing structured enough to scale past word of mouth. I designed and shipped a dedicated mentorship platform with two clear tracks, goal-based matching, and a three-month 1:1 commitment, built with AI tools and connected to Stripe for payments.</p>
 
@@ -942,6 +958,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">AGL × TCS · Lead UX Designer · On-site Melbourne</div>
+    <div class="modal-logo-row"><img src="images/logos/agl.png" alt="AGL" class="modal-logo-img"><div class="modal-logo-divider"></div><img src="images/logos/tcs.png" alt="TCS" class="modal-logo-img sm"></div>
     <h3 class="modal-headline" id="modal-agl-title">Improving install time from 57 to 14 days for Australia's gas and electric company.</h3>
     <p class="modal-summary">AGL is a top-3 Australian energy company in a fiercely competitive open market. Its "New Connections" portal, used by builders, electricians, and plumbers to connect power and gas to newly built and renovated homes, was outdated, overburdened, and so unreliable that customers had learned to distrust it.</p>
 
@@ -990,6 +1007,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">Element Corp × TCS · Designer &amp; Prototyper</div>
+    <div class="modal-logo-row"><img src="images/logos/tcs.png" alt="TCS" class="modal-logo-img"></div>
     <h3 class="modal-headline" id="modal-element-title">Fleet Management Dashboard Design for Element Corp.</h3>
     <p class="modal-summary">A modernized fleet management portal for Element Corp: linking drivers up with trucks and keeping their data, from driver's licenses to license plate numbers, visible to operators and the operations center.</p>
 
@@ -1027,7 +1045,8 @@
 <div class="case-modal-overlay" id="modal-benefits" role="dialog" aria-modal="true" aria-labelledby="modal-benefits-title">
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
-    <div class="modal-tag">Air India· HR Benefits Portal · UX/UI Designer · 2022–2023</div>
+    <div class="modal-tag">Air India · HR Benefits Portal · UX/UI Designer · 2022–2023</div>
+    <div class="modal-logo-row"><img src="images/logos/airindia.png" alt="Air India" class="modal-logo-img rounded"></div>
     <h3 class="modal-headline" id="modal-benefits-title">0→1 internal portal unifying 156 tools for 22,000+ employees.</h3>
     <p class="modal-summary">Air India needed a custom internal portal for employee benefits and SSO — single sign-on access to 19 internal tools across every persona, from pilots to ground crew to management. Four weeks to MVP, five designers, fifteen-plus developers.</p>
 
@@ -1079,6 +1098,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">UX Wizards · Workshop Design &amp; Facilitation · 2025</div>
+    <div class="modal-logo-row"><img src="images/uxwizards-logo.png" alt="UX Wizards" class="modal-logo-img rounded"></div>
     <h3 class="modal-headline" id="modal-byt-title">Bring Your Thing: a design review workshop I designed and led.</h3>
     <p class="modal-summary">A structured peer-critique format for the UX Wizards community — designed from scratch to give designers real feedback on real work, not just moral support. The format scales from 8 to 50+ and has run multiple times across in-person and hybrid settings.</p>
 
@@ -1129,6 +1149,7 @@
   <button type="button" class="case-modal-close" data-close-modal aria-label="Close case study">✕</button>
   <div class="case-modal">
     <div class="modal-tag">UX Wizards · Design &amp; Build · 2026</div>
+    <div class="modal-logo-row"><img src="images/uxwizards-logo.png" alt="UX Wizards" class="modal-logo-img rounded"></div>
     <h3 class="modal-headline" id="modal-volunteers-title">Volunteer sign-up page for a design community meetup.</h3>
     <p class="modal-summary">Built with AI to solve a real coordination problem: getting the right volunteers into the right roles for UX Wizards events, without a spreadsheet and a hundred Slack messages.</p>
 
@@ -1179,14 +1200,14 @@
       <h2 class="section-title">What I bring <span class="red">to a team.</span></h2>
     </div>
     <div class="skills-grid reveal-stagger">
-      <div class="skill-chip"><div class="sk-num">01</div><div class="sk-name">End-to-End Product Design</div></div>
-      <div class="skill-chip"><div class="sk-num">02</div><div class="sk-name">Design Systems — Strategy to Build</div></div>
-      <div class="skill-chip"><div class="sk-num">03</div><div class="sk-name">AI Product Design &amp; Strategy</div></div>
-      <div class="skill-chip"><div class="sk-num">04</div><div class="sk-name">0→1 Product Definition</div></div>
-      <div class="skill-chip"><div class="sk-num">05</div><div class="sk-name">Team Scaling &amp; Development</div></div>
-      <div class="skill-chip"><div class="sk-num">06</div><div class="sk-name">Executive &amp; Cross-Functional Partnership</div></div>
-      <div class="skill-chip"><div class="sk-num">07</div><div class="sk-name">Org &amp; Process Design</div></div>
-      <div class="skill-chip"><div class="sk-num">08</div><div class="sk-name">Mentorship &amp; Design Education</div></div>
+      <div class="skill-chip"><div class="sk-name">End-to-End Product Design</div></div>
+      <div class="skill-chip"><div class="sk-name">Design Systems — Strategy to Build</div></div>
+      <div class="skill-chip"><div class="sk-name">AI Product Design &amp; Strategy</div></div>
+      <div class="skill-chip"><div class="sk-name">0→1 Product Definition</div></div>
+      <div class="skill-chip"><div class="sk-name">Team Scaling &amp; Development</div></div>
+      <div class="skill-chip"><div class="sk-name">Executive &amp; Cross-Functional Partnership</div></div>
+      <div class="skill-chip"><div class="sk-name">Org &amp; Process Design</div></div>
+      <div class="skill-chip"><div class="sk-name">Mentorship &amp; Design Education</div></div>
     </div>
   </div>
 </section>
@@ -1249,8 +1270,8 @@
     </div>
 
     <div class="speaking-drawer" id="speakingDrawer" aria-hidden="true">
-      <div class="beyond-photo" style="margin-bottom:20px; max-height:320px; overflow:hidden;">
-        <img src="images/cal-poly-panel.jpg" alt="Keri on a panel at Cal Poly SLO UXFest — 'How is AI changing your workflow?'" loading="lazy" style="height:320px; object-fit:cover; object-position:center 20%;">
+      <div class="speaking-photo-wrap">
+        <img src="images/cal-poly-panel.jpg" alt="Keri on a panel at Cal Poly SLO UXFest — 'How is AI changing your workflow?'" loading="lazy">
       </div>
       <div class="speaking-rows-grid">
         <div class="speaking-row">
@@ -1284,6 +1305,7 @@
           <span class="speaking-badge">Speaker</span>
         </div>
       </div>
+      <button type="button" class="speaking-hide-btn" id="speakingHideBtn">Hide ↑</button>
     </div>
   </div>
 </section>
@@ -1442,13 +1464,22 @@
   (function () {
     const btn = document.getElementById('speakingToggle');
     const drawer = document.getElementById('speakingDrawer');
+    const hideBtn = document.getElementById('speakingHideBtn');
     if (!btn || !drawer) return;
-    btn.addEventListener('click', () => {
-      const open = drawer.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
-      btn.textContent = open ? 'Speaking & workshops ↑' : 'Speaking & workshops ↓';
-    });
+    function open() {
+      drawer.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+      btn.textContent = 'Speaking & workshops ✓';
+    }
+    function close() {
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      btn.textContent = 'Speaking & workshops ↓';
+    }
+    btn.addEventListener('click', () => { drawer.classList.contains('open') ? close() : open(); });
+    if (hideBtn) hideBtn.addEventListener('click', close);
   })();
   // ── Word ticker on contact title ──
   (function () {
